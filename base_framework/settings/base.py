@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "apps.animals",
     "apps.adoptions",
     "apps.volunteers",
+    "apps.donations",
+    "apps.activities",
 ]
 
 MIDDLEWARE = [

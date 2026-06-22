@@ -1,0 +1,1 @@
+{% extends "layouts/application.html" %}{% block title %}我的认捐{% endblock %}{% block content %}<section class="site-container module-page"><h1>我的认捐</h1>{% for item in pledges %}<p>{{ item.item.project }} · {{ item.item.name }} {{ item.quantity }} {{ item.item.unit }} · {{ item.get_status_display }}</p>{% empty %}<p>暂无认捐记录。</p>{% endfor %}</section>{% endblock %}

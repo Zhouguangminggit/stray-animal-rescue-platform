@@ -7,6 +7,8 @@ SIMPLEUI_CONFIG = {
         "动物管理",
         "领养管理",
         "志愿者与社区",
+        "捐赠管理",
+        "活动管理",
         "通知管理",
     ],
     "dynamic": False,
@@ -135,6 +137,36 @@ SIMPLEUI_CONFIG = {
                     "name": "举报管理",
                     "icon": "fas fa-flag",
                     "url": "volunteers/communityreport/",
+                },
+            ],
+        },
+        {
+            "app": "donations",
+            "name": "捐赠管理",
+            "icon": "fas fa-hand-holding-heart",
+            "models": [
+                {
+                    "name": "捐赠项目",
+                    "icon": "fas fa-box-open",
+                    "url": "donations/donationproject/",
+                },
+                {"name": "物资认捐", "icon": "fas fa-gift", "url": "donations/pledge/"},
+            ],
+        },
+        {
+            "app": "activities",
+            "name": "活动管理",
+            "icon": "fas fa-calendar-alt",
+            "models": [
+                {
+                    "name": "校园活动",
+                    "icon": "fas fa-calendar",
+                    "url": "activities/activity/",
+                },
+                {
+                    "name": "活动报名",
+                    "icon": "fas fa-user-check",
+                    "url": "activities/participation/",
                 },
             ],
         },

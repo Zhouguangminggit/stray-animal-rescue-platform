@@ -1,0 +1,73 @@
+from typing import Any, cast
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_POST
+
+from .models import Activity, Participation
+from .services import ActivityError, cancel_participation, register_activity
+
+
+def activity_list(request: HttpRequest) -> HttpResponse:
+    return render(
+        request,
+        "activities/list.html",
+        {
+            "page_obj": Paginator(
+                Activity.objects.exclude(status=Activity.Status.DRAFT).select_related(
+                    "campus"
+                ),
+                12,
+            ).get_page(request.GET.get("page"))
+        },
+    )
+
+
+def activity_detail(request: HttpRequest, pk: int) -> HttpResponse:
+    return render(
+        request,
+        "activities/detail.html",
+        {
+            "activity": get_object_or_404(
+                Activity.objects.select_related("campus"), pk=pk
+            )
+        },
+    )
+
+
+@require_POST
+@login_required
+def register(request: HttpRequest, pk: int) -> HttpResponse:
+    try:
+        register_activity(user=request.user, activity_id=pk)
+    except ActivityError as exc:
+        messages.error(request, str(exc))
+    else:
+        messages.success(request, "活动报名成功。")
+    return redirect("activities:detail", pk=pk)
+
+
+@require_POST
+@login_required
+def cancel(request: HttpRequest, pk: int) -> HttpResponse:
+    try:
+        cancel_participation(participation_id=pk, user=request.user)
+    except ActivityError as exc:
+        messages.error(request, str(exc))
+    return redirect("activities:mine")
+
+
+@login_required
+def mine(request: HttpRequest) -> HttpResponse:
+    return render(
+        request,
+        "activities/mine.html",
+        {
+            "participations": Participation.objects.filter(
+                user=cast(Any, request.user)
+            ).select_related("activity")
+        },
+    )

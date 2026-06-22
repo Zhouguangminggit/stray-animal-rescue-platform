@@ -14,6 +14,8 @@ urlpatterns = [
     path("animals/", include("apps.animals.urls")),
     path("adoptions/", include("apps.adoptions.urls")),
     path("community/", include("apps.volunteers.urls")),
+    path("donations/", include("apps.donations.urls")),
+    path("activities/", include("apps.activities.urls")),
     path("", TemplateView.as_view(template_name="core/home.html"), name="home"),
 ]
 
