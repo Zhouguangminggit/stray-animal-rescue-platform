@@ -1,6 +1,6 @@
 SIMPLEUI_CONFIG = {
     "system_keep": False,
-    "menu_display": ["用户管理", "校园管理", "标签管理", "通知管理"],
+    "menu_display": ["用户管理", "校园管理", "标签管理", "动物管理", "通知管理"],
     "dynamic": False,
     "menus": [
         {
@@ -56,6 +56,28 @@ SIMPLEUI_CONFIG = {
                     "name": "标签内容",
                     "icon": "fas fa-tag",
                     "url": "tags/tag/",
+                },
+            ],
+        },
+        {
+            "app": "animals",
+            "name": "动物管理",
+            "icon": "fas fa-paw",
+            "models": [
+                {
+                    "name": "动物分类",
+                    "icon": "fas fa-list",
+                    "url": "animals/animalcategory/",
+                },
+                {
+                    "name": "动物信息",
+                    "icon": "fas fa-paw",
+                    "url": "animals/animal/",
+                },
+                {
+                    "name": "救助申请审核",
+                    "icon": "fas fa-clipboard-check",
+                    "url": "animals/rescuerequest/",
                 },
             ],
         },

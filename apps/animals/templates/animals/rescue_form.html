@@ -1,0 +1,5 @@
+{% extends "layouts/application.html" %}
+{% load static %}
+{% block title %}发起救助{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'animals/css/animals.css' %}">{% endblock %}
+{% block content %}<section class="site-container animal-form"><h1>发起救助</h1><p>请提供真实的动物与位置信息，管理员审核后将向您发送站内通知。</p><form method="post" enctype="multipart/form-data">{% csrf_token %}{{ form.as_p }}<button class="action action--primary" type="submit">提交救助申请</button></form></section>{% endblock %}

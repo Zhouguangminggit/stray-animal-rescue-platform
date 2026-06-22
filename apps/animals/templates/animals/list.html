@@ -1,0 +1,18 @@
+{% extends "layouts/application.html" %}
+{% load static %}
+{% block title %}救助信息{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'animals/css/animals.css' %}">{% endblock %}
+{% block content %}
+<section class="site-container animals-page">
+  <header class="animals-heading"><div><p class="section-kicker">RESCUE</p><h1>救助信息</h1><p>关注校园流浪动物，查看最新救助进展。</p></div><a class="action action--primary" href="{% url 'animals:rescue_create' %}">发起救助</a></header>
+  <form class="animals-filters" method="get">
+    <select name="category"><option value="">全部类型</option>{% for item in categories %}<option value="{{ item.pk }}"{% if request.GET.category == item.pk|stringformat:'s' %} selected{% endif %}>{{ item }}</option>{% endfor %}</select>
+    <select name="health"><option value="">全部健康状态</option>{% for value,label in health_choices %}<option value="{{ value }}"{% if request.GET.health == value %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+    <select name="campus"><option value="">全部校区</option>{% for item in campuses %}<option value="{{ item.pk }}"{% if request.GET.campus == item.pk|stringformat:'s' %} selected{% endif %}>{{ item }}</option>{% endfor %}</select>
+    <select name="status"><option value="">全部救助状态</option>{% for value,label in status_choices %}<option value="{{ value }}"{% if request.GET.status == value %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+    <button type="submit">筛选</button>
+  </form>
+  <div class="animals-grid">{% for animal in page_obj %}<article class="animal-card">{% with cover=animal.cover_image %}{% if cover %}<img src="{{ cover.image.url }}" alt="{{ animal }}">{% endif %}{% endwith %}<div><span>{{ animal.get_rescue_status_display }}</span><h2><a href="{% url 'animals:detail' animal.pk %}">{{ animal }}</a></h2><p>{{ animal.campus }} · {{ animal.get_health_status_display }}</p><p>{{ animal.description|truncatechars:90 }}</p></div></article>{% empty %}<p>暂无符合条件的动物信息。</p>{% endfor %}</div>
+  {% if page_obj.has_other_pages %}<nav class="pagination">{% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">上一页</a>{% endif %}<span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>{% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">下一页</a>{% endif %}</nav>{% endif %}
+</section>
+{% endblock %}

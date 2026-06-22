@@ -1,0 +1,5 @@
+{% extends "layouts/application.html" %}
+{% load static %}
+{% block title %}{{ animal }}{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'animals/css/animals.css' %}">{% endblock %}
+{% block content %}<article class="site-container animal-detail"><a href="{% url 'animals:list' %}">← 返回救助信息</a><h1>{{ animal }}</h1><p>{{ animal.category }} · {{ animal.campus }} · {{ animal.get_health_status_display }} · {{ animal.get_rescue_status_display }}</p><div class="animal-gallery">{% for image in animal.images.all %}<img src="{{ image.image.url }}" alt="{{ image.caption|default:animal }}">{% endfor %}</div><p>{{ animal.description|linebreaksbr }}</p><dl><dt>发现位置</dt><dd>{{ animal.found_location }}</dd><dt>性别</dt><dd>{{ animal.get_gender_display }}</dd><dt>估算年龄</dt><dd>{{ animal.estimated_age|default:"未知" }}</dd></dl><div>{% for tag in animal.tags.all %}<span class="animal-tag">{{ tag }}</span>{% endfor %}</div></article>{% endblock %}

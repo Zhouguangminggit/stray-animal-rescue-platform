@@ -1,0 +1,5 @@
+{% extends "layouts/application.html" %}
+{% load static %}
+{% block title %}我的救助{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'animals/css/animals.css' %}">{% endblock %}
+{% block content %}<section class="site-container animals-page"><header class="animals-heading"><div><h1>我的救助申请</h1></div><a class="action action--primary" href="{% url 'animals:rescue_create' %}">新建申请</a></header>{% for item in page_obj %}<article class="rescue-row"><div><h2>{{ item.animal_name|default:item.category }}</h2><p>{{ item.campus }} · {{ item.found_location }}</p></div><div><strong>{{ item.get_status_display }}</strong>{% if item.review_note %}<p>{{ item.review_note }}</p>{% endif %}{% if item.approved_animal %}<a href="{% url 'animals:detail' item.approved_animal.pk %}">查看动物档案</a>{% endif %}</div></article>{% empty %}<p>您还没有提交过救助申请。</p>{% endfor %}</section>{% endblock %}
