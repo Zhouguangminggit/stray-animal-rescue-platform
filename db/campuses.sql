@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS campuses_school (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL UNIQUE,
+  address VARCHAR(255) NOT NULL DEFAULT '',
+  is_active BOOLEAN NOT NULL DEFAULT TRUE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS campuses_campus (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  school_id BIGINT NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  address VARCHAR(255) NOT NULL DEFAULT '',
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  CONSTRAINT uniq_campus_school_name UNIQUE (school_id, name),
+  CONSTRAINT campuses_campus_school_fk FOREIGN KEY (school_id) REFERENCES campuses_school(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

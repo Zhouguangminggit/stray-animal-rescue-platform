@@ -4,6 +4,9 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client
 from django.urls import reverse
 
+from apps.campuses.models import Campus, School
+from apps.tags.models import Tag, TagCategory
+
 User = get_user_model()
 PASSWORD = "Harness-test-password-2026"
 
@@ -61,6 +64,44 @@ def test_admin_user_crud_pages_are_available(admin_user, client: Client) -> None
     ).content.decode()
     assert "重要日期" in change_content
     assert "控制后台访问、角色分组和细粒度权限" in change_content
+
+
+@pytest.mark.django_db
+def test_campus_and_tag_admin_crud_pages_are_available(
+    admin_user, client: Client
+) -> None:
+    school = School.objects.create(name="测试大学")
+    campus = Campus.objects.create(school=school, name="主校区")
+    category = TagCategory.objects.create(name="动物性格")
+    tag = Tag.objects.create(category=category, name="亲人")
+    client.force_login(admin_user)
+
+    urls = (
+        reverse("admin:campuses_school_changelist"),
+        reverse("admin:campuses_school_change", args=(school.pk,)),
+        reverse("admin:campuses_school_delete", args=(school.pk,)),
+        reverse("admin:campuses_campus_changelist"),
+        reverse("admin:campuses_campus_add"),
+        reverse("admin:campuses_campus_change", args=(campus.pk,)),
+        reverse("admin:campuses_campus_delete", args=(campus.pk,)),
+        reverse("admin:tags_tagcategory_changelist"),
+        reverse("admin:tags_tagcategory_add"),
+        reverse("admin:tags_tagcategory_change", args=(category.pk,)),
+        reverse("admin:tags_tagcategory_delete", args=(category.pk,)),
+        reverse("admin:tags_tag_changelist"),
+        reverse("admin:tags_tag_add"),
+        reverse("admin:tags_tag_change", args=(tag.pk,)),
+        reverse("admin:tags_tag_delete", args=(tag.pk,)),
+    )
+
+    for url in urls:
+        assert client.get(url).status_code == 200
+
+
+def test_simpleui_menu_contains_campus_and_tag_management(settings) -> None:
+    menu_names = [item["name"] for item in settings.SIMPLEUI_CONFIG["menus"]]
+    assert "校园管理" in menu_names
+    assert "标签管理" in menu_names
 
 
 @pytest.mark.django_db

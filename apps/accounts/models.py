@@ -27,6 +27,16 @@ class User(AbstractUser):
     phone = models.CharField(
         "手机号", max_length=20, unique=True, null=True, blank=True
     )
+    campus = models.ForeignKey(
+        "campuses.Campus",
+        on_delete=models.SET_NULL,
+        related_name="users",
+        null=True,
+        blank=True,
+        verbose_name="所属校区",
+    )
+    student_number = models.CharField("学号/工号", max_length=50, blank=True)
+    identity_note = models.CharField("身份说明", max_length=100, blank=True)
 
     objects: ClassVar[UserManager] = UserManager()
 

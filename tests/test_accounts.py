@@ -44,7 +44,7 @@ def test_home_page(client: Client) -> None:
     response = client.get(reverse("home"))
     assert response.status_code == 200
     content = response.content.decode()
-    assert "把业务想法，落到可靠的工程底座上" in content
+    assert "DjangoHarness是一个 AI 的底座框架" in content
     assert "Django Template Framework" not in content
 
 

@@ -134,7 +134,16 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("avatar", "nickname", "username", "email", "phone")
+        fields = (
+            "avatar",
+            "nickname",
+            "username",
+            "email",
+            "phone",
+            "campus",
+            "student_number",
+            "identity_note",
+        )
         help_texts = {
             "nickname": "导航栏和欢迎信息优先显示昵称。",
             "username": "用户名可用于登录，修改后原用户名立即失效。",

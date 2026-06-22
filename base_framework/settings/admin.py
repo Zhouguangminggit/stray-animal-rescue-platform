@@ -1,6 +1,6 @@
 SIMPLEUI_CONFIG = {
     "system_keep": False,
-    "menu_display": ["用户管理"],
+    "menu_display": ["用户管理", "校园管理", "标签管理", "通知管理"],
     "dynamic": False,
     "menus": [
         {
@@ -24,7 +24,53 @@ SIMPLEUI_CONFIG = {
                     "url": "accounts/user/bulk-add/",
                 },
             ],
-        }
+        },
+        {
+            "app": "campuses",
+            "name": "校园管理",
+            "icon": "fas fa-school",
+            "models": [
+                {
+                    "name": "学校管理",
+                    "icon": "fas fa-university",
+                    "url": "campuses/school/",
+                },
+                {
+                    "name": "校区管理",
+                    "icon": "fas fa-map-marker-alt",
+                    "url": "campuses/campus/",
+                },
+            ],
+        },
+        {
+            "app": "tags",
+            "name": "标签管理",
+            "icon": "fas fa-tags",
+            "models": [
+                {
+                    "name": "标签分类",
+                    "icon": "fas fa-folder-open",
+                    "url": "tags/tagcategory/",
+                },
+                {
+                    "name": "标签内容",
+                    "icon": "fas fa-tag",
+                    "url": "tags/tag/",
+                },
+            ],
+        },
+        {
+            "app": "notifications",
+            "name": "通知管理",
+            "icon": "fas fa-bell",
+            "models": [
+                {
+                    "name": "站内通知",
+                    "icon": "fas fa-envelope",
+                    "url": "notifications/notification/",
+                }
+            ],
+        },
     ],
 }
 

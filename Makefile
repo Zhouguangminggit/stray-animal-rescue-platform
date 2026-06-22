@@ -3,7 +3,7 @@
 export UV_CACHE_DIR := .uv-cache
 
 PYTHON_PATHS := apps base_framework celery_app tests manage.py
-MARKDOWN_PATHS := README.md README.en.md agent-docs docs deploy/README.md skill
+MARKDOWN_PATHS := README.md README.en.md docs deploy/README.md
 
 sync:
 	uv sync --all-groups

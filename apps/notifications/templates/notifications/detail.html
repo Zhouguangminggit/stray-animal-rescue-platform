@@ -1,0 +1,3 @@
+{% extends "layouts/application.html" %}
+{% block title %}{{ notification.title }}{% endblock %}
+{% block content %}<article class="site-container"><h1>{{ notification.title }}</h1><p>{{ notification.content }}</p><time>{{ notification.created_at }}</time></article>{% endblock %}

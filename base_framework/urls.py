@@ -10,6 +10,7 @@ urlpatterns = [
     path("health/", health, name="health"),
     path("admin/", admin.site.urls),
     path("accounts/", include("apps.accounts.urls")),
+    path("notifications/", include("apps.notifications.urls")),
     path("", TemplateView.as_view(template_name="core/home.html"), name="home"),
 ]
 
