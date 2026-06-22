@@ -24,3 +24,6 @@ env/
 .uv-cache/
 .coverage
 htmlcov/
+/docs/
+/agent-doc/
+/skill/
