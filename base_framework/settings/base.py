@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     "apps.volunteers",
     "apps.donations",
     "apps.activities",
+    "apps.posters",
+    "apps.faqs",
 ]
 
 MIDDLEWARE = [

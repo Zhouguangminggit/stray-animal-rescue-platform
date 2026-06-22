@@ -1,0 +1,7 @@
+{% if faqs %}
+<section class="module-faq">
+  <header><p class="section-kicker">FAQ</p><h2>常见问题</h2></header>
+  {% regroup faqs by category as groups %}
+  {% for group in groups %}<div><h3>{{ group.grouper.name }}</h3>{% for item in group.list %}<details><summary>{{ item.question }}</summary><p>{{ item.answer|linebreaksbr }}</p></details>{% endfor %}</div>{% endfor %}
+</section>
+{% endif %}

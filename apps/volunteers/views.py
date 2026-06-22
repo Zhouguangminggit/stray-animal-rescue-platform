@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
 from apps.animals.models import ReviewStatus
+from apps.faqs.models import FAQModule, faqs_for
 
 from .forms import CommunityPostForm, CommunityReportForm, VolunteerApplicationForm
 from .models import (
@@ -30,7 +31,11 @@ def community_list(request: HttpRequest) -> HttpResponse:
     return render(
         request,
         "volunteers/community_list.html",
-        {"articles": articles, "page_obj": posts},
+        {
+            "articles": articles,
+            "page_obj": posts,
+            "faqs": faqs_for(FAQModule.VOLUNTEER),
+        },
     )
 
 

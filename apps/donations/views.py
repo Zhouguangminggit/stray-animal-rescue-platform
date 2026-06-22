@@ -7,6 +7,8 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
+from apps.faqs.models import FAQModule, faqs_for
+
 from .models import DonationItem, DonationProject, Pledge
 from .services import DonationError, create_pledge
 
@@ -18,7 +20,11 @@ def project_list(request: HttpRequest) -> HttpResponse:
         ).prefetch_related("items", "tags"),
         12,
     ).get_page(request.GET.get("page"))
-    return render(request, "donations/list.html", {"page_obj": page})
+    return render(
+        request,
+        "donations/list.html",
+        {"page_obj": page, "faqs": faqs_for(FAQModule.DONATION)},
+    )
 
 
 def project_detail(request: HttpRequest, pk: int) -> HttpResponse:

@@ -9,6 +9,8 @@ SIMPLEUI_CONFIG = {
         "志愿者与社区",
         "捐赠管理",
         "活动管理",
+        "海报管理",
+        "问题管理",
         "通知管理",
     ],
     "dynamic": False,
@@ -168,6 +170,27 @@ SIMPLEUI_CONFIG = {
                     "icon": "fas fa-user-check",
                     "url": "activities/participation/",
                 },
+            ],
+        },
+        {
+            "app": "posters",
+            "name": "海报管理",
+            "icon": "fas fa-images",
+            "models": [
+                {"name": "海报列表", "icon": "fas fa-image", "url": "posters/poster/"}
+            ],
+        },
+        {
+            "app": "faqs",
+            "name": "问题管理",
+            "icon": "fas fa-question-circle",
+            "models": [
+                {
+                    "name": "FAQ 分类",
+                    "icon": "fas fa-folder",
+                    "url": "faqs/faqcategory/",
+                },
+                {"name": "FAQ 内容", "icon": "fas fa-question", "url": "faqs/faq/"},
             ],
         },
         {

@@ -9,6 +9,7 @@ from django.views.decorators.http import require_POST
 
 from apps.animals.models import Animal, AnimalCategory
 from apps.campuses.models import Campus
+from apps.faqs.models import FAQModule, faqs_for
 
 from .forms import AdoptionApplicationForm
 from .models import AdoptionApplication, AdoptionRelationship
@@ -52,6 +53,7 @@ def adoption_list(request: HttpRequest) -> HttpResponse:
                 (Animal.AdoptionStatus.AVAILABLE, "待领养"),
                 (Animal.AdoptionStatus.ADOPTED, "已领养"),
             ),
+            "faqs": faqs_for(FAQModule.ADOPTION),
         },
     )
 

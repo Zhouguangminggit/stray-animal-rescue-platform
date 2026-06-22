@@ -1,168 +1,21 @@
 {% extends "layouts/application.html" %}
 {% load static %}
-
-{% block title %}{{ site_name }} · AI 协作的 Django 工程底座{% endblock %}
-{% block body_class %}site-page home-page{% endblock %}
+{% block title %}守望小动物 · 让每一个生命被看见{% endblock %}
+{% block body_class %}site-page rescue-home{% endblock %}
 {% block extra_css %}<link rel="stylesheet" href="{% static 'core/css/home.css' %}">{% endblock %}
-
 {% block content %}
-  <section class="home-hero">
-    <div class="home-hero__bg-glow"></div>
-    <div class="site-container home-hero__grid">
-      <div class="home-hero__copy reveal fade-up">
-        <p class="section-kicker">THE FUTURE OF DEVELOPMENT</p>
-        <h1>DjangoHarness是一个 AI 的底座框架<br>能够快速构建其他<span class="text-glow">业务主题系统</span></h1>
-        <p class="home-hero__lead">DjangoHarness的命名初心是想打造一个基于 Django 框架和 harness 模式的的 AI 协作的工程底座, 能够帮助您快速构建其他业务主题的系统。</p>
-        
-        <div class="home-hero__actions">
-          {% if user.is_authenticated %}
-            {% if user.is_staff %}<a class="action action--primary" href="{% url 'admin:index' %}">进入管理后台</a>{% endif %}
-            <a class="home-hero__welcome" href="{% url 'accounts:profile' %}">欢迎回来，{{ user.display_name }}</a>
-          {% else %}
-            <a class="action action--primary" href="{% url 'accounts:register' %}">开始使用</a>
-            <a class="action action--quiet" href="{% url 'accounts:login' %}">开发者入口 ↗</a>
-          {% endif %}
-        </div>
-        
-        <div class="home-stats">
-          <div><dt class="counter-animate">0<span>+</span></dt><dd>涵盖不同业务主题内容</dd></div>
-        </div>
-      </div>
-      
-      <div class="home-hero__art reveal fade-left" aria-hidden="true">
-        <div class="art-card glass-panel">
-          <div class="art-header">
-            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            <div class="art-title">DjangoHarness AI Engine</div>
-          </div>
-          <div class="art-body">
-            <div class="code-line"><span>></span> <span>Generating schema...</span></div>
-            <div class="code-line"><span>></span> <span class="highlight">git init</span> <span>initialized.</span></div>
-            <div class="code-line"><span>></span> <span class="highlight">git add .</span> <span>initialized.</span></div>
-            <div class="code-line"><span>></span> <span class="highlight">git commit -m "今天构建点什么？🤔"</span> <span>initialized.</span></div>
-            <div class="code-line cursor">_</div>
-          </div>
-        </div>
-        <div class="art-card-blur blur-1"></div>
-        <div class="art-card-blur blur-2"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- AI Skills Section -->
-  <section class="site-container home-ai-ecosystem reveal fade-up">
-    <div class="ecosystem-banner glass-panel">
-      <div class="ecosystem-content">
-        <h2>深度集成大模型工具链</h2>
-        <p>DjangoHarness 不仅是一个后端框架，更是一套可被大语言模型直接理解的<strong>规范上下文</strong>。目前原生集成了丰富的 <strong>Skill</strong>，您可以直接将本框架应用到 <span class="highlight-tag">Claude Code</span>、<span class="highlight-tag">Codex</span> 以及各类自主智能体工具流中，让 AI 按照项目工程标准为您自动编写业务代码。</p>
-      </div>
-      <div class="ecosystem-visual">
-        <div class="ai-node">Claude Code</div>
-        <div class="ai-node center-node">Harness Skill</div>
-        <div class="ai-node">OpenAI Codex</div>
-        <div class="connection-lines"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Product Showcase Section -->
-  <section class="home-product-showcase">
-    <div class="site-container showcase-grid">
-      <div class="showcase-info reveal fade-right">
-        <p class="section-kicker">REAL WORLD APPLICATION</p>
-        <h2>流浪动物救助平台</h2>
-        <p class="showcase-desc">右侧展示了一个基于 DjangoHarness 的流浪动物救助平台，它集成了动物救助、领养审核、志愿者、用户管理、捐赠系统等功能。</p>
-        <ul class="feature-ticks">
-          <li>✓ 动物救助流程</li>
-          <li>✓ 领养审核流程</li>
-          <li>✓ 志愿者管理</li>
-          <li>✓ 用户管理</li>
-          <li>✓ 捐赠系统</li>
-          <li>✓ 地图定位</li>
-          <li>✓ 自动化多级审核与状态流转</li>
-           <li>✓ 。。。。。。。。。。。。。。。</li>
-        </ul>
-      </div>
-      <div class="showcase-poster reveal fade-left">
-        <img src="{% static 'core/img/poster.png' %}" alt="流浪动物救助平台高保真 UI">
-        <div class="poster-glow"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Capabilities Section -->
-  <section class="site-container home-capabilities" aria-labelledby="capability-title">
-    <header class="section-heading reveal fade-up">
-      <p class="section-kicker">BUILT FOR EVERY DOMAIN</p>
-      <h2 id="capability-title">一套底座，涵盖万千主题。</h2>
-    </header>
-    <div class="capability-grid">
-      <article class="glass-panel reveal fade-up" style="transition-delay: 0ms;">
-        <div class="icon-glow">🎓</div>
-        <h3>校园二手系统</h3>
-        <p>包含商品发布、交易撮合、安全认证等完整闭环，快速落地二手流转业务。</p>
-      </article>
-      <article class="glass-panel reveal fade-up" style="transition-delay: 100ms;">
-        <div class="icon-glow">🐾</div>
-        <h3>流浪动物救助</h3>
-        <p>支持志愿者管理、救助追踪、领养审核流程，用技术传递温度。</p>
-      </article>
-      <article class="glass-panel reveal fade-up" style="transition-delay: 200ms;">
-        <div class="icon-glow">📚</div>
-        <h3>学生信息管理</h3>
-        <p>多维数据图表、角色权限隔离、教务系统标准对接。</p>
-      </article>
-      <article class="glass-panel reveal fade-up" style="transition-delay: 300ms;">
-        <div class="icon-glow">🚀</div>
-        <h3>几千个更多主题</h3>
-        <p>依托标准化工程规范，AI 能理解您的意图并瞬间生成对应的模型与接口。</p>
-      </article>
-    </div>
-  </section>
+<section class="rescue-hero">
+  <div class="rescue-hero__grain"></div>
+  <div class="site-container rescue-hero__layout">
+    <div class="rescue-hero__copy reveal"><p class="rescue-eyebrow">校园流浪动物救助平台</p><h1>让每一个<br><em>小生命</em>被看见。</h1><p>从一条救助线索，到一个温暖的家。连接校园里的发现者、志愿者与领养人。</p><div class="rescue-hero__actions"><a href="{% url 'animals:rescue_create' %}">发起救助 <span>↗</span></a><a href="{% url 'adoptions:list' %}">遇见待领养动物</a></div></div>
+    <div class="rescue-hero__visual reveal">{% for banner in banners|slice:":1" %}<img src="{{ banner.image.url }}" alt="{{ banner.title }}"><div class="rescue-hero__caption"><strong>{{ banner.title }}</strong><span>{{ banner.subtitle }}</span></div>{% empty %}<div class="rescue-hero__placeholder"><span>待一张救助现场照片</span><small>可在后台“海报管理”上传首页 Banner</small></div>{% endfor %}<span class="rescue-hero__stamp">CARE<br>IN<br>ACTION</span></div>
+  </div>
+</section>
+<section class="rescue-stats"><div class="site-container rescue-stats__grid"><div><strong>{{ stats.rescued|stringformat:"02d" }}</strong><span>已救助</span></div><div><strong>{{ stats.adopted|stringformat:"02d" }}</strong><span>正在家中</span></div><div><strong>{{ stats.volunteers|stringformat:"02d" }}</strong><span>活跃志愿者</span></div><div><strong>{{ stats.donations|stringformat:"02d" }}</strong><span>进行中物资项目</span></div></div></section>
+<section class="site-container rescue-routes"><header class="rescue-section-head"><p>HOW TO HELP</p><h2>选择你的参与方式</h2></header><div class="rescue-routes__grid">{% for entry in quick_entries %}<a href="{{ entry.link|default:'#' }}">{% if entry.image %}<img src="{{ entry.image.url }}" alt="">{% endif %}<span>{{ entry.title }}</span><small>{{ entry.subtitle }}</small></a>{% empty %}<a href="{% url 'animals:list' %}"><b>01</b><span>关注救助</span><small>查看待救助与已救助动物</small></a><a href="{% url 'adoptions:list' %}"><b>02</b><span>责任领养</span><small>用稳定的承诺给它一个家</small></a><a href="{% url 'volunteers:apply' %}"><b>03</b><span>加入志愿者</span><small>用时间和技能参与行动</small></a><a href="{% url 'donations:list' %}"><b>04</b><span>捐赠物资</span><small>让每一份物资到达需要的地方</small></a>{% endfor %}</div></section>
+<section class="rescue-animals"><div class="site-container"><header class="rescue-section-head rescue-section-head--row"><div><p>NEW ARRIVALS</p><h2>最新救助档案</h2></div><a href="{% url 'animals:list' %}">查看全部 →</a></header><div class="rescue-animals__grid">{% for animal in latest_animals %}<a href="{% url 'animals:detail' animal.pk %}" class="rescue-animal">{% with cover=animal.cover_image %}{% if cover %}<img src="{{ cover.image.url }}" alt="{{ animal }}">{% else %}<div class="rescue-animal__empty">暂无图片</div>{% endif %}{% endwith %}<div><span>{{ animal.get_rescue_status_display }}</span><h3>{{ animal }}</h3><p>{{ animal.campus }} · {{ animal.get_health_status_display }}</p></div></a>{% empty %}<div class="rescue-empty">还没有公开的动物档案。</div>{% endfor %}</div></div></section>
+<section class="site-container rescue-split"><div><header class="rescue-section-head"><p>WHAT'S NEEDED</p><h2>急需物资</h2></header>{% for item in urgent_items %}<a class="rescue-need" href="{% url 'donations:detail' item.project.pk %}"><span>{{ item.name }}</span><small>{{ item.project }} · 剩余 {{ item.remaining_quantity }} {{ item.unit }}</small><b>↗</b></a>{% empty %}<p class="rescue-empty">当前没有急需物资。</p>{% endfor %}</div><div><header class="rescue-section-head"><p>ON CAMPUS</p><h2>近期活动</h2></header>{% for activity in latest_activities %}<a class="rescue-event" href="{% url 'activities:detail' activity.pk %}"><time>{{ activity.starts_at|date:"m.d" }}</time><div><strong>{{ activity.title }}</strong><small>{{ activity.campus }} · {{ activity.location }}</small></div></a>{% empty %}<p class="rescue-empty">近期暂无活动。</p>{% endfor %}</div></section>
+{% for poster in welfare_posters|slice:":1" %}<section class="site-container rescue-welfare"><img src="{{ poster.image.url }}" alt="{{ poster.title }}"><div><p>PUBLIC WELFARE</p><h2>{{ poster.title }}</h2><span>{{ poster.subtitle }}</span>{% if poster.link %}<a href="{{ poster.link }}">了解更多 ↗</a>{% endif %}</div></section>{% endfor %}
+<footer class="rescue-footer"><div class="site-container"><strong>守望小动物</strong><p>把善意变成可追踪、可持续的校园救助行动。</p><span>© {% now "Y" %} Campus Animal Rescue</span></div></footer>
 {% endblock %}
-
-{% block extra_js %}
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const counter = document.querySelector('.counter-animate');
-    let counted = false;
-    
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.15
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          
-          if (entry.target.classList.contains('home-hero__copy') && !counted) {
-            counted = true;
-            let count = 0;
-            const target = 3000;
-            const duration = 2000;
-            const steps = 60;
-            const increment = target / steps;
-            
-            const timer = setInterval(() => {
-              count += increment;
-              if (count >= target) {
-                clearInterval(timer);
-                counter.innerHTML = '3,000<span>+</span>';
-              } else {
-                counter.innerHTML = Math.floor(count).toLocaleString() + '<span>+</span>';
-              }
-            }, duration / steps);
-          }
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.reveal').forEach(el => {
-      observer.observe(el);
-    });
-  });
-</script>
-{% endblock %}
+{% block extra_js %}<script defer src="{% static 'core/js/home.js' %}"></script>{% endblock %}

@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 
 from apps.campuses.models import Campus
+from apps.faqs.models import FAQModule, faqs_for
 
 from .forms import RescueRequestForm
 from .models import Animal, AnimalCategory, RescueRequest, RescueRequestImage
@@ -42,6 +43,7 @@ def animal_list(request: HttpRequest) -> HttpResponse:
             "campuses": Campus.objects.filter(is_active=True),
             "health_choices": Animal._meta.get_field("health_status").choices,
             "status_choices": Animal.RescueStatus.choices,
+            "faqs": faqs_for(FAQModule.RESCUE),
         },
     )
 

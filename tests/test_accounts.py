@@ -40,11 +40,12 @@ def user(db):
     )
 
 
+@pytest.mark.django_db
 def test_home_page(client: Client) -> None:
     response = client.get(reverse("home"))
     assert response.status_code == 200
     content = response.content.decode()
-    assert "DjangoHarness是一个 AI 的底座框架" in content
+    assert "让每一个" in content
     assert "Django Template Framework" not in content
 
 

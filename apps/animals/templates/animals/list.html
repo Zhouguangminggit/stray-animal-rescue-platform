@@ -14,5 +14,6 @@
   </form>
   <div class="animals-grid">{% for animal in page_obj %}<article class="animal-card">{% with cover=animal.cover_image %}{% if cover %}<img src="{{ cover.image.url }}" alt="{{ animal }}">{% endif %}{% endwith %}<div><span>{{ animal.get_rescue_status_display }}</span><h2><a href="{% url 'animals:detail' animal.pk %}">{{ animal }}</a></h2><p>{{ animal.campus }} · {{ animal.get_health_status_display }}</p><p>{{ animal.description|truncatechars:90 }}</p></div></article>{% empty %}<p>暂无符合条件的动物信息。</p>{% endfor %}</div>
   {% if page_obj.has_other_pages %}<nav class="pagination">{% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">上一页</a>{% endif %}<span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>{% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">下一页</a>{% endif %}</nav>{% endif %}
+  {% include "components/faq_section.html" %}
 </section>
 {% endblock %}

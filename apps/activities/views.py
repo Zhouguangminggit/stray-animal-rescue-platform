@@ -7,6 +7,8 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
+from apps.faqs.models import FAQModule, faqs_for
+
 from .models import Activity, Participation
 from .services import ActivityError, cancel_participation, register_activity
 
@@ -21,7 +23,8 @@ def activity_list(request: HttpRequest) -> HttpResponse:
                     "campus"
                 ),
                 12,
-            ).get_page(request.GET.get("page"))
+            ).get_page(request.GET.get("page")),
+            "faqs": faqs_for(FAQModule.ACTIVITY),
         },
     )
 
