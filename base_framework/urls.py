@@ -12,6 +12,7 @@ urlpatterns = [
     path("accounts/", include("apps.accounts.urls")),
     path("notifications/", include("apps.notifications.urls")),
     path("animals/", include("apps.animals.urls")),
+    path("adoptions/", include("apps.adoptions.urls")),
     path("", TemplateView.as_view(template_name="core/home.html"), name="home"),
 ]
 
