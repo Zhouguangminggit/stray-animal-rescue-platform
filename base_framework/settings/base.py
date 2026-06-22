@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "apps.notifications",
     "apps.animals",
     "apps.adoptions",
+    "apps.volunteers",
 ]
 
 MIDDLEWARE = [

@@ -13,6 +13,7 @@ urlpatterns = [
     path("notifications/", include("apps.notifications.urls")),
     path("animals/", include("apps.animals.urls")),
     path("adoptions/", include("apps.adoptions.urls")),
+    path("community/", include("apps.volunteers.urls")),
     path("", TemplateView.as_view(template_name="core/home.html"), name="home"),
 ]
 

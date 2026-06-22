@@ -6,6 +6,7 @@ SIMPLEUI_CONFIG = {
         "标签管理",
         "动物管理",
         "领养管理",
+        "志愿者与社区",
         "通知管理",
     ],
     "dynamic": False,
@@ -102,6 +103,38 @@ SIMPLEUI_CONFIG = {
                     "name": "领养关系",
                     "icon": "fas fa-hand-holding-heart",
                     "url": "adoptions/adoptionrelationship/",
+                },
+            ],
+        },
+        {
+            "app": "volunteers",
+            "name": "志愿者与社区",
+            "icon": "fas fa-users",
+            "models": [
+                {
+                    "name": "志愿者申请",
+                    "icon": "fas fa-user-check",
+                    "url": "volunteers/volunteerapplication/",
+                },
+                {
+                    "name": "志愿者档案",
+                    "icon": "fas fa-id-card",
+                    "url": "volunteers/volunteerprofile/",
+                },
+                {
+                    "name": "社区文章",
+                    "icon": "fas fa-newspaper",
+                    "url": "volunteers/communityarticle/",
+                },
+                {
+                    "name": "用户帖子",
+                    "icon": "fas fa-comments",
+                    "url": "volunteers/communitypost/",
+                },
+                {
+                    "name": "举报管理",
+                    "icon": "fas fa-flag",
+                    "url": "volunteers/communityreport/",
                 },
             ],
         },

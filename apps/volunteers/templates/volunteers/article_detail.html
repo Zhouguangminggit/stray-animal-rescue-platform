@@ -1,0 +1,1 @@
+{% extends "layouts/application.html" %}{% block title %}{{ article.title }}{% endblock %}{% block content %}<article class="site-container community-detail"><h1>{{ article.title }}</h1><p>{{ article.summary }}</p>{% if article.cover %}<img src="{{ article.cover.url }}" alt="">{% endif %}<div>{{ article.content|linebreaks }}</div></article>{% endblock %}

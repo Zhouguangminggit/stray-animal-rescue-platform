@@ -9,6 +9,7 @@
       <a href="{% url 'home' %}">首页</a>
       <a href="{% url 'animals:list' %}">救助信息</a>
       <a href="{% url 'adoptions:list' %}">领养中心</a>
+      <a href="{% url 'volunteers:community' %}">志愿者社区</a>
       {% if user.is_authenticated %}
         {% if user.is_staff %}<a href="{% url 'admin:index' %}">管理后台</a>{% endif %}
         <a class="site-nav__user" href="{% url 'accounts:profile' %}" aria-label="进入个人中心">
