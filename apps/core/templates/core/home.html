@@ -1,21 +1,363 @@
 {% extends "layouts/application.html" %}
 {% load static %}
-{% block title %}守望小动物 · 让每一个生命被看见{% endblock %}
-{% block body_class %}site-page rescue-home{% endblock %}
+{% block title %}关爱每一个小生命 · {{ site_name }}{% endblock %}
+{% block body_class %}site-page{% endblock %}
 {% block extra_css %}<link rel="stylesheet" href="{% static 'core/css/home.css' %}">{% endblock %}
+
 {% block content %}
-<section class="rescue-hero">
-  <div class="rescue-hero__grain"></div>
-  <div class="site-container rescue-hero__layout">
-    <div class="rescue-hero__copy reveal"><p class="rescue-eyebrow">校园流浪动物救助平台</p><h1>让每一个<br><em>小生命</em>被看见。</h1><p>从一条救助线索，到一个温暖的家。连接校园里的发现者、志愿者与领养人。</p><div class="rescue-hero__actions"><a href="{% url 'animals:rescue_create' %}">发起救助 <span>↗</span></a><a href="{% url 'adoptions:list' %}">遇见待领养动物</a></div></div>
-    <div class="rescue-hero__visual reveal">{% for banner in banners|slice:":1" %}<img src="{{ banner.image.url }}" alt="{{ banner.title }}"><div class="rescue-hero__caption"><strong>{{ banner.title }}</strong><span>{{ banner.subtitle }}</span></div>{% empty %}<div class="rescue-hero__placeholder"><span>待一张救助现场照片</span><small>可在后台“海报管理”上传首页 Banner</small></div>{% endfor %}<span class="rescue-hero__stamp">CARE<br>IN<br>ACTION</span></div>
+
+<!-- ====== Hero 区域 ====== -->
+<section class="hero-section" id="hero">
+  {% for banner in banners|slice:":1" %}
+  <div class="hero-section__bg" style="background-image:url('{{ banner.image.url }}')"></div>
+  {% empty %}
+  <div class="hero-section__bg" style="background-image:url('{% static 'core/img/hero-bg.jpg' %}')"></div>
+  {% endfor %}
+  <div class="hero-section__overlay"></div>
+  <div class="hero-section__content">
+    <div class="hero-section__inner reveal">
+      <span class="hero-section__eyebrow">关爱每一个小生命</span>
+      <h1 class="hero-section__title">给流浪动物<br>一个温暖的家</h1>
+      <p class="hero-section__text">我们致力于救助、照顾并帮助流浪动物找到永远的家。每一份关爱，都能改变一个生命。</p>
+      <div class="hero-section__actions">
+        <a href="{% url 'adoptions:list' %}" class="btn">领养一只宠物 <span class="arrow">›</span></a>
+        <a href="#about" class="btn btn--ghost">了解我们的使命 <span class="arrow">›</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-section__scroll">
+    <div class="hero-scroll-indicator"></div>
   </div>
 </section>
-<section class="rescue-stats"><div class="site-container rescue-stats__grid"><div><strong>{{ stats.rescued|stringformat:"02d" }}</strong><span>已救助</span></div><div><strong>{{ stats.adopted|stringformat:"02d" }}</strong><span>正在家中</span></div><div><strong>{{ stats.volunteers|stringformat:"02d" }}</strong><span>活跃志愿者</span></div><div><strong>{{ stats.donations|stringformat:"02d" }}</strong><span>进行中物资项目</span></div></div></section>
-<section class="site-container rescue-routes"><header class="rescue-section-head"><p>HOW TO HELP</p><h2>选择你的参与方式</h2></header><div class="rescue-routes__grid">{% for entry in quick_entries %}<a href="{{ entry.link|default:'#' }}">{% if entry.image %}<img src="{{ entry.image.url }}" alt="">{% endif %}<span>{{ entry.title }}</span><small>{{ entry.subtitle }}</small></a>{% empty %}<a href="{% url 'animals:list' %}"><b>01</b><span>关注救助</span><small>查看待救助与已救助动物</small></a><a href="{% url 'adoptions:list' %}"><b>02</b><span>责任领养</span><small>用稳定的承诺给它一个家</small></a><a href="{% url 'volunteers:apply' %}"><b>03</b><span>加入志愿者</span><small>用时间和技能参与行动</small></a><a href="{% url 'donations:list' %}"><b>04</b><span>捐赠物资</span><small>让每一份物资到达需要的地方</small></a>{% endfor %}</div></section>
-<section class="rescue-animals"><div class="site-container"><header class="rescue-section-head rescue-section-head--row"><div><p>NEW ARRIVALS</p><h2>最新救助档案</h2></div><a href="{% url 'animals:list' %}">查看全部 →</a></header><div class="rescue-animals__grid">{% for animal in latest_animals %}<a href="{% url 'animals:detail' animal.pk %}" class="rescue-animal">{% with cover=animal.cover_image %}{% if cover %}<img src="{{ cover.image.url }}" alt="{{ animal }}">{% else %}<div class="rescue-animal__empty">暂无图片</div>{% endif %}{% endwith %}<div><span>{{ animal.get_rescue_status_display }}</span><h3>{{ animal }}</h3><p>{{ animal.campus }} · {{ animal.get_health_status_display }}</p></div></a>{% empty %}<div class="rescue-empty">还没有公开的动物档案。</div>{% endfor %}</div></div></section>
-<section class="site-container rescue-split"><div><header class="rescue-section-head"><p>WHAT'S NEEDED</p><h2>急需物资</h2></header>{% for item in urgent_items %}<a class="rescue-need" href="{% url 'donations:detail' item.project.pk %}"><span>{{ item.name }}</span><small>{{ item.project }} · 剩余 {{ item.remaining_quantity }} {{ item.unit }}</small><b>↗</b></a>{% empty %}<p class="rescue-empty">当前没有急需物资。</p>{% endfor %}</div><div><header class="rescue-section-head"><p>ON CAMPUS</p><h2>近期活动</h2></header>{% for activity in latest_activities %}<a class="rescue-event" href="{% url 'activities:detail' activity.pk %}"><time>{{ activity.starts_at|date:"m.d" }}</time><div><strong>{{ activity.title }}</strong><small>{{ activity.campus }} · {{ activity.location }}</small></div></a>{% empty %}<p class="rescue-empty">近期暂无活动。</p>{% endfor %}</div></section>
-{% for poster in welfare_posters|slice:":1" %}<section class="site-container rescue-welfare"><img src="{{ poster.image.url }}" alt="{{ poster.title }}"><div><p>PUBLIC WELFARE</p><h2>{{ poster.title }}</h2><span>{{ poster.subtitle }}</span>{% if poster.link %}<a href="{{ poster.link }}">了解更多 ↗</a>{% endif %}</div></section>{% endfor %}
-<footer class="rescue-footer"><div class="site-container"><strong>守望小动物</strong><p>把善意变成可追踪、可持续的校园救助行动。</p><span>© {% now "Y" %} Campus Animal Rescue</span></div></footer>
+
+<!-- ====== 关于我们 ====== -->
+<section class="about-section" id="about">
+  <div class="site-container">
+    <div class="about-section__layout">
+      <div class="about-section__text">
+        <span class="eyebrow">关于我们</span>
+        <h2 class="section-title">每一只流浪动物<br>都值得被温柔以待</h2>
+        <p class="text-body">流浪动物救助平台成立于 2015 年，是一个非营利性的动物保护组织。我们相信每一个生命都值得尊重和关爱，无论是流浪在街头的小猫，还是被遗弃的小狗。</p>
+        <p class="text-body">多年来，我们已经救助了超过 {{ stats.rescued }} 只流浪动物，为它们提供医疗救助、食物、庇护，并成功帮助众多救助动物找到了永远的家。</p>
+        <div class="about-section__stats">
+          <div class="about-section__stat">
+            <strong>{{ stats.rescued }}+</strong>
+            <span>已救助动物</span>
+          </div>
+          <div class="about-section__stat">
+            <strong>80%</strong>
+            <span>成功领养率</span>
+          </div>
+          <div class="about-section__stat">
+            <strong>{{ stats.volunteers }}+</strong>
+            <span>志愿者</span>
+          </div>
+        </div>
+        <a href="#services" class="about-section__link">了解更多 <span>→</span></a>
+      </div>
+      <div class="about-section__visual">
+        <div class="about-section__image-wrap reveal-right">
+          <span class="star-decoration star-decoration--1">✦</span>
+          <span class="star-decoration star-decoration--2">✦</span>
+          <span class="star-decoration star-decoration--3">✦</span>
+          <div class="about-section__image">
+            <img src="{% static 'core/img/about-volunteer.jpg' %}" alt="志愿者与救助动物">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== 我们的服务 ====== -->
+<section class="services-section" id="services">
+  <div class="site-container">
+    <div class="services-section__header">
+      <span class="eyebrow">我们的服务</span>
+      <h2 class="section-title gradient-text">我们能做什么</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-card__icon">🐾</div>
+        <h3 class="service-card__title">动物救助</h3>
+        <p class="service-card__text">我们在城市各个角落寻找需要帮助的流浪动物，为受伤、生病或饥饿的动物提供及时的救援。</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card__icon">💉</div>
+        <h3 class="service-card__title">医疗救助</h3>
+        <p class="service-card__text">提供疫苗接种、绝育手术、伤病治疗等全面的医疗服务，确保每只动物都健康快乐地生活。</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card__icon">🏠</div>
+        <h3 class="service-card__title">领养服务</h3>
+        <p class="service-card__text">为每只动物寻找最合适的 forever home，严格的领养审核确保动物和新家庭都能获得幸福。</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card__icon">📚</div>
+        <h3 class="service-card__title">社区教育</h3>
+        <p class="service-card__text">通过学校讲座、社区活动等方式，宣传动物保护理念，培养下一代对生命的尊重和关爱。</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card__icon">🤝</div>
+        <h3 class="service-card__title">志愿者招募</h3>
+        <p class="service-card__text">欢迎热爱动物的志愿者加入我们的大家庭，无论是照顾动物、参与活动还是协助办公。</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card__icon">✂️</div>
+        <h3 class="service-card__title">绝育计划</h3>
+        <p class="service-card__text">推行 TNR（捕捉-绝育-放归）计划，从根本上控制流浪动物数量，减少更多生命的流浪。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== 等待回家的小伙伴们 ====== -->
+<section class="pets-section" id="pets">
+  <div class="site-container">
+    <div class="pets-section__header">
+      <div>
+        <span class="eyebrow">寻找家人</span>
+        <h2 class="section-title gradient-text">等待回家的<br>小伙伴们</h2>
+      </div>
+      <div class="pets-section__scroll">
+        <button class="pets-scroll-btn" type="button" onclick="document.getElementById('pets-scroll').scrollBy({left:-280,behavior:'smooth'})" aria-label="向左滚动">‹</button>
+        <button class="pets-scroll-btn" type="button" onclick="document.getElementById('pets-scroll').scrollBy({left:280,behavior:'smooth'})" aria-label="向右滚动">›</button>
+      </div>
+    </div>
+    <div class="pets-scroll-container" id="pets-scroll">
+      {% for animal in latest_animals %}
+      <a href="{% url 'animals:detail' animal.pk %}" class="pet-card reveal">
+        <div class="pet-card__media">
+          {% with cover=animal.cover_image %}
+          {% if cover %}<img src="{{ cover.image.url }}" alt="{{ animal }}">{% else %}<img src="{% static 'core/img/pet-doudou.jpg' %}" alt="{{ animal }}">{% endif %}
+          {% endwith %}
+        </div>
+        <div class="pet-card__body">
+          <div class="pet-card__header">
+            <h3 class="pet-card__name">{{ animal }}</h3>
+            <span class="pet-card__age">{{ animal.get_rescue_status_display }}</span>
+          </div>
+          <p class="pet-card__breed">{{ animal.category }}</p>
+          <p class="pet-card__desc">{{ animal.campus }} · {{ animal.get_health_status_display }}</p>
+        </div>
+      </a>
+      {% empty %}
+      <div class="pet-card" style="opacity:0.6">
+        <div class="pet-card__media"><img src="{% static 'core/img/pet-doudou.jpg' %}" alt="暂无"></div>
+        <div class="pet-card__body"><h3 class="pet-card__name">暂无公开档案</h3><p class="pet-card__desc">请稍后查看</p></div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ====== 你可以怎样帮忙 ====== -->
+<section class="involve-section" id="involve">
+  <div class="site-container">
+    <div class="involve-section__header">
+      <span class="eyebrow">加入行动</span>
+      <h2 class="section-title gradient-text">你可以怎样帮忙</h2>
+    </div>
+    <div class="involve-grid">
+      <a href="{% url 'adoptions:list' %}" class="involve-card reveal">
+        <div class="involve-card__media">
+          <img src="{% static 'core/img/adopt-family.jpg' %}" alt="领养">
+        </div>
+        <div class="involve-card__overlay"></div>
+        <div class="involve-card__body">
+          <h3 class="involve-card__title">领养一只宠物</h3>
+          <p class="involve-card__text">给流浪动物一个永远的家</p>
+          <span class="involve-card__link">查看待领养动物 <span>›</span></span>
+        </div>
+      </a>
+      <a href="{% url 'donations:list' %}" class="involve-card reveal">
+        <div class="involve-card__media">
+          <img src="{% static 'core/img/donate-support.jpg' %}" alt="捐赠">
+        </div>
+        <div class="involve-card__overlay"></div>
+        <div class="involve-card__body">
+          <h3 class="involve-card__title">捐赠支持</h3>
+          <p class="involve-card__text">你的每一份捐赠都能拯救一个生命</p>
+          <span class="involve-card__link">立即捐赠 <span>›</span></span>
+        </div>
+      </a>
+      <a href="{% url 'volunteers:community' %}" class="involve-card reveal">
+        <div class="involve-card__media">
+          <img src="{% static 'core/img/volunteer-work.jpg' %}" alt="志愿者">
+        </div>
+        <div class="involve-card__overlay"></div>
+        <div class="involve-card__body">
+          <h3 class="involve-card__title">成为志愿者</h3>
+          <p class="involve-card__text">用你的时间和爱心帮助更多动物</p>
+          <span class="involve-card__link">申请志愿者 <span>›</span></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ====== 数据统计 ====== -->
+<section class="stats-section">
+  <div class="site-container">
+    <div class="stats-section__grid">
+      <div class="stats-section__item reveal">
+        <div class="stats-section__icon">🐾</div>
+        <div class="stats-section__number">{{ stats.rescued }}+</div>
+        <p class="stats-section__label">已救助动物</p>
+      </div>
+      <div class="stats-section__item reveal">
+        <div class="stats-section__icon">❤️</div>
+        <div class="stats-section__number">{{ stats.adopted }}+</div>
+        <p class="stats-section__label">成功领养</p>
+      </div>
+      <div class="stats-section__item reveal">
+        <div class="stats-section__icon">💉</div>
+        <div class="stats-section__number">{{ stats.donations }}+</div>
+        <p class="stats-section__label">捐赠项目</p>
+      </div>
+      <div class="stats-section__item reveal">
+        <div class="stats-section__icon">👥</div>
+        <div class="stats-section__number">{{ stats.volunteers }}+</div>
+        <p class="stats-section__label">活跃志愿者</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== 联系我们 ====== -->
+<section class="contact-section" id="contact">
+  <div class="site-container">
+    <div class="contact-section__layout">
+      <div class="contact-section__info">
+        <span class="eyebrow">联系我们</span>
+        <h2 class="section-title">一起为流浪动物<br>创造更美好的未来</h2>
+        <p class="text-body">无论您是想领养宠物、捐赠支持，还是申请成为志愿者，我们都期待与您联系。每一份力量都能帮助更多流浪动物找到温暖的家。</p>
+        <div style="margin-top:32px">
+          <div class="contact-info__item">
+            <div class="contact-info__icon">📍</div>
+            <div class="contact-info__text">
+              <p>地址</p>
+              <strong>北京市朝阳区爱心路 88 号</strong>
+            </div>
+          </div>
+          <div class="contact-info__item">
+            <div class="contact-info__icon">📞</div>
+            <div class="contact-info__text">
+              <p>电话</p>
+              <strong>+86 10-8888-9999</strong>
+            </div>
+          </div>
+          <div class="contact-info__item">
+            <div class="contact-info__icon">✉️</div>
+            <div class="contact-info__text">
+              <p>邮箱</p>
+              <strong>contact@streetpetsociety.org</strong>
+            </div>
+          </div>
+          <div class="contact-info__item">
+            <div class="contact-info__icon">🕐</div>
+            <div class="contact-info__text">
+              <p>工作时间</p>
+              <strong>周一至周六 9:00-18:00</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-section__form-wrap">
+        <div class="contact-form" id="contact-form">
+          <form onsubmit="return submitContactForm(this)">
+            <div class="form-row">
+              <div class="field">
+                <label for="contact-name">姓名 <span class="required">*</span></label>
+                <input type="text" id="contact-name" name="name" required placeholder="请输入您的姓名">
+              </div>
+              <div class="field">
+                <label for="contact-email">邮箱 <span class="required">*</span></label>
+                <input type="email" id="contact-email" name="email" required placeholder="请输入您的邮箱">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label for="contact-phone">电话</label>
+                <input type="tel" id="contact-phone" name="phone" placeholder="请输入您的电话（选填）">
+              </div>
+              <div class="field">
+                <label for="contact-subject">主题</label>
+                <select id="contact-subject" name="subject">
+                  <option value="">请选择主题</option>
+                  <option value="adopt">领养咨询</option>
+                  <option value="donate">捐赠咨询</option>
+                  <option value="volunteer">志愿者申请</option>
+                  <option value="other">其他</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="contact-message">留言内容 <span class="required">*</span></label>
+              <textarea id="contact-message" name="message" required rows="4" placeholder="请输入您想告诉我们的内容..."></textarea>
+            </div>
+            <button type="submit" class="btn btn--wide">发送消息</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== 页脚 ====== -->
+<footer class="home-footer">
+  <div class="site-container home-footer__top">
+    <div class="home-footer__grid">
+      <div class="home-footer__brand">
+        <h3>{{ site_name }}</h3>
+        <p>致力于救助流浪动物，为每一个生命带来希望和温暖。我们相信，爱能改变一切。</p>
+      </div>
+      <div class="home-footer__column">
+        <h4>快速链接</h4>
+        <ul>
+          <li><a href="{% url 'home' %}">关于我们</a></li>
+          <li><a href="{% url 'adoptions:list' %}">领养动物</a></li>
+          <li><a href="{% url 'volunteers:community' %}">参与救助</a></li>
+          <li><a href="{% url 'activities:list' %}">校园活动</a></li>
+          <li><a href="#">隐私政策</a></li>
+        </ul>
+      </div>
+      <div class="home-footer__column">
+        <h4>联系方式</h4>
+        <ul>
+          <li>北京市朝阳区爱心路 88 号</li>
+          <li>+86 10-8888-9999</li>
+          <li>contact@streetpetsociety.org</li>
+        </ul>
+      </div>
+      <div class="home-footer__column">
+        <h4>关注我们</h4>
+        <ul>
+          <li><a href="#">微信公众号</a></li>
+          <li><a href="#">微博</a></li>
+          <li><a href="#">抖音</a></li>
+          <li><a href="#">小红书</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="home-footer__bottom">
+    <div class="site-container home-footer__bottom-inner">
+      <p>© {% now "Y" %} {{ site_name }} 保留所有权利。<span class="heart">♥</span></p>
+      <p>非营利组织</p>
+    </div>
+  </div>
+</footer>
+
 {% endblock %}
-{% block extra_js %}<script defer src="{% static 'core/js/home.js' %}"></script>{% endblock %}
+
+{% block extra_js %}
+<script defer src="{% static 'core/js/home.js' %}"></script>
+<script>
+function submitContactForm(form) {
+  const formWrap = document.getElementById('contact-form');
+  formWrap.innerHTML = '<div class="contact-form__success"><div class="contact-form__success-icon">✓</div><h3>消息已发送</h3><p>感谢您的留言，我们会尽快与您联系！</p></div>';
+  return false;
+}
+</script>
+{% endblock %}
