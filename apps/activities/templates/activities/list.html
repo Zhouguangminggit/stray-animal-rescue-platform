@@ -1,1 +1,38 @@
-{% extends "layouts/application.html" %}{% block title %}校园活动{% endblock %}{% block content %}<section class="site-container module-page"><h1>校园活动</h1>{% for item in page_obj %}<article><h2><a href="{% url 'activities:detail' item.pk %}">{{ item.title }}</a></h2><p>{{ item.summary }} · {{ item.campus }} · {{ item.get_status_display }}</p></article>{% empty %}<p>暂无活动。</p>{% endfor %}</section>{% endblock %}
+{% extends "layouts/application.html" %}
+{% load static %}
+{% block title %}校园活动{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'activities/css/activities.css' %}">{% endblock %}
+
+{% block content %}
+<section class="site-container activities-page">
+  <header class="activities-heading">
+    <div>
+      <p class="section-kicker">ACTIVITY</p>
+      <h1>校园活动</h1>
+      <p class="section-lead">参与校园动物保护活动，用行动传递关爱。</p>
+    </div>
+    {% if user.is_authenticated %}<a class="btn btn--secondary" href="{% url 'activities:mine' %}">我的活动</a>{% endif %}
+  </header>
+
+  <div class="activities-grid">
+    {% for item in page_obj %}
+    <article class="activity-card">
+      <span class="activity-card__status">{{ item.get_status_display }}</span>
+      <h2><a href="{% url 'activities:detail' item.pk %}">{{ item.title }}</a></h2>
+      <p class="activity-card__meta">{{ item.campus }} · {{ item.starts_at|date:"Y-m-d H:i" }}</p>
+      <p class="activity-card__summary">{{ item.summary|default:item.content|truncatechars:120 }}</p>
+    </article>
+    {% empty %}
+    <div class="empty-state" style="grid-column:1/-1">暂无活动。</div>
+    {% endfor %}
+  </div>
+
+  {% if page_obj.has_other_pages %}
+  <nav class="activities-pagination">
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">上一页</a>{% endif %}
+    <span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">下一页</a>{% endif %}
+  </nav>
+  {% endif %}
+</section>
+{% endblock %}

@@ -137,12 +137,12 @@ AUTH_STYLE = os.environ.get("AUTH_STYLE", "picture").lower()
 if AUTH_STYLE == "vedio":
     AUTH_STYLE = "video"
 AUTH_MEDIA = {
-    "login": os.environ.get("AUTH_LOGIN_MEDIA", "accounts/media/djangoharness.png"),
+    "login": os.environ.get("AUTH_LOGIN_MEDIA", "core/img/hero-bg.jpg"),
     "register": os.environ.get(
-        "AUTH_REGISTER_MEDIA", "accounts/media/djangoharness.png"
+        "AUTH_REGISTER_MEDIA", "core/img/about-volunteer.jpg"
     ),
     "password_reset": os.environ.get(
-        "AUTH_PASSWORD_RESET_MEDIA", "accounts/media/djangoharness.png"
+        "AUTH_PASSWORD_RESET_MEDIA", "core/img/hero-bg.jpg"
     ),
 }
 AUTH_REMEMBER_SECONDS = int(os.environ.get("AUTH_REMEMBER_SECONDS", "2592000"))

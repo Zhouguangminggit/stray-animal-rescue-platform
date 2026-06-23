@@ -1,1 +1,30 @@
-{% extends "layouts/application.html" %}{% block title %}{{ activity.title }}{% endblock %}{% block content %}<section class="site-container module-page"><h1>{{ activity.title }}</h1><p>{{ activity.campus }} · {{ activity.location }} · {{ activity.starts_at }}</p><div>{{ activity.content|linebreaks }}</div>{% if user.is_authenticated and activity.status == 'open' %}<form method="post" action="{% url 'activities:register' activity.pk %}">{% csrf_token %}<button type="submit">报名活动</button></form>{% endif %}</section>{% endblock %}
+{% extends "layouts/application.html" %}
+{% load static %}
+{% block title %}{{ activity.title }}{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'activities/css/activities.css' %}">{% endblock %}
+
+{% block content %}
+<section class="site-container activity-detail">
+  <span class="section-kiker">ACTIVITY</span>
+  <h1>{{ activity.title }}</h1>
+  <div class="activity-detail__meta">
+    <span>{{ activity.campus }}</span>
+    <span>{{ activity.location }}</span>
+    <span>{{ activity.starts_at|date:"Y-m-d H:i" }}</span>
+    <span>{{ activity.get_status_display }}</span>
+  </div>
+
+  <div class="activity-detail__content">
+    {{ activity.content|linebreaks }}
+  </div>
+
+  {% if user.is_authenticated and activity.status == 'open' %}
+  <div class="activity-detail__actions">
+    <form method="post" action="{% url 'activities:register' activity.pk %}">
+      {% csrf_token %}
+      <button class="btn btn--wide" type="submit">报名活动</button>
+    </form>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

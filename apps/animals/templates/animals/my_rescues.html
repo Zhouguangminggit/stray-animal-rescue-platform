@@ -2,4 +2,39 @@
 {% load static %}
 {% block title %}我的救助{% endblock %}
 {% block extra_css %}<link rel="stylesheet" href="{% static 'animals/css/animals.css' %}">{% endblock %}
-{% block content %}<section class="site-container animals-page"><header class="animals-heading"><div><h1>我的救助申请</h1></div><a class="action action--primary" href="{% url 'animals:rescue_create' %}">新建申请</a></header>{% for item in page_obj %}<article class="rescue-row"><div><h2>{{ item.animal_name|default:item.category }}</h2><p>{{ item.campus }} · {{ item.found_location }}</p></div><div><strong>{{ item.get_status_display }}</strong>{% if item.review_note %}<p>{{ item.review_note }}</p>{% endif %}{% if item.approved_animal %}<a href="{% url 'animals:detail' item.approved_animal.pk %}">查看动物档案</a>{% endif %}</div></article>{% empty %}<p>您还没有提交过救助申请。</p>{% endfor %}</section>{% endblock %}
+
+{% block content %}
+<section class="site-container my-rescues">
+  <header class="animals-heading">
+    <div>
+      <p class="section-kicker">MY RESCUE</p>
+      <h1>我的救助申请</h1>
+    </div>
+    <a class="btn" href="{% url 'animals:rescue_create' %}">新建申请</a>
+  </header>
+
+  {% for item in page_obj %}
+  <article class="rescue-row">
+    <div>
+      <h2>{{ item.animal_name|default:item.category }}</h2>
+      <p>{{ item.campus }} · {{ item.found_location }}</p>
+    </div>
+    <div style="text-align:right">
+      <strong>{{ item.get_status_display }}</strong>
+      {% if item.review_note %}<p style="margin-top:6px;color:var(--muted);font-size:13px;">{{ item.review_note }}</p>{% endif %}
+      {% if item.approved_animal %}<p style="margin-top:6px"><a href="{% url 'animals:detail' item.approved_animal.pk %}">查看动物档案</a></p>{% endif %}
+    </div>
+  </article>
+  {% empty %}
+  <div class="empty-state">您还没有提交过救助申请。</div>
+  {% endfor %}
+
+  {% if page_obj.has_other_pages %}
+  <nav class="pagination">
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">上一页</a>{% endif %}
+    <span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">下一页</a>{% endif %}
+  </nav>
+  {% endif %}
+</section>
+{% endblock %}

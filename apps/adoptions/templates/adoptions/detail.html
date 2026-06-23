@@ -1,4 +1,45 @@
-{% extends "layouts/application.html" %}{% load static %}
+{% extends "layouts/application.html" %}
+{% load static %}
 {% block title %}领养 {{ animal }}{% endblock %}
 {% block extra_css %}<link rel="stylesheet" href="{% static 'animals/css/animals.css' %}"><link rel="stylesheet" href="{% static 'adoptions/css/adoptions.css' %}">{% endblock %}
-{% block content %}<section class="site-container adoption-detail"><article><a href="{% url 'adoptions:list' %}">← 返回领养中心</a><h1>{{ animal }}</h1><p>{{ animal.category }} · {{ animal.campus }} · {{ animal.get_health_status_display }}</p><div class="animal-gallery">{% for image in animal.images.all %}<img src="{{ image.image.url }}" alt="{{ animal }}">{% endfor %}</div><p>{{ animal.description|linebreaksbr }}</p></article><aside><h2>{{ animal.get_adoption_status_display }}</h2>{% if animal.adoption_status == 'available' %}{% if user.is_authenticated %}<form method="post" action="{% url 'adoptions:apply' animal.pk %}">{% csrf_token %}{{ form.as_p }}<button class="action action--primary" type="submit">提交领养申请</button></form>{% else %}<a class="action action--primary" href="{% url 'accounts:login' %}?next={{ request.path }}">登录后申请</a>{% endif %}{% else %}<p>该动物已完成领养。</p>{% endif %}</aside></section>{% endblock %}
+
+{% block content %}
+<section class="site-container adoption-detail">
+  <article>
+    <a href="{% url 'adoptions:list' %}" class="adoption-detail__back">← 返回领养中心</a>
+    <h1>{{ animal }}</h1>
+    <div class="adoption-detail__meta">
+      <span>{{ animal.category }}</span>
+      <span>{{ animal.campus }}</span>
+      <span>{{ animal.get_health_status_display }}</span>
+    </div>
+
+    <div class="animal-gallery">
+      {% for image in animal.images.all %}
+      <img src="{{ image.image.url }}" alt="{{ animal }}">
+      {% empty %}
+      <div style="grid-column:1/-1;height:260px;background:var(--light-orange);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--muted);">暂无图片</div>
+      {% endfor %}
+    </div>
+
+    <p class="adoption-detail__desc">{{ animal.description|linebreaksbr }}</p>
+  </article>
+
+  <aside class="adoption-detail__aside">
+    <span class="adoption-status">{{ animal.get_adoption_status_display }}</span>
+    {% if animal.adoption_status == 'available' %}
+      {% if user.is_authenticated %}
+      <form method="post" action="{% url 'adoptions:apply' animal.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn--wide" type="submit">提交领养申请</button>
+      </form>
+      {% else %}
+      <a class="btn btn--wide" href="{% url 'accounts:login' %}?next={{ request.path }}">登录后申请</a>
+      {% endif %}
+    {% else %}
+    <p>该动物已完成领养。</p>
+    {% endif %}
+  </aside>
+</section>
+{% endblock %}

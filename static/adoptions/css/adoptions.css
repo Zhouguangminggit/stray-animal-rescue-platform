@@ -1,1 +1,262 @@
-.adoption-detail{display:grid;grid-template-columns:minmax(0,2fr) minmax(300px,1fr);gap:3rem;padding-block:4rem}.adoption-detail h1,.adoption-mine h1{font-size:clamp(2rem,5vw,4rem)}.adoption-detail aside{align-self:start;padding:1.5rem;border:1px solid rgba(102,121,58,.2);border-radius:1rem;background:#fff;position:sticky;top:6rem}.adoption-detail input,.adoption-detail textarea{box-sizing:border-box;width:100%;padding:.75rem;border:1px solid #d9dfce;border-radius:.6rem}.adoption-mine{padding-block:4rem;max-width:900px}.adoption-mine article{display:flex;justify-content:space-between;gap:1rem;padding:1rem;border-bottom:1px solid #e5e8df}.adoption-mine h2{margin-top:2.5rem}@media(max-width:800px){.adoption-detail{grid-template-columns:1fr}.adoption-detail aside{position:static}}
+/* ============================================================
+   领养模块样式 — 暖橙主题
+   ============================================================ */
+
+/* --------------------------------------------------------
+   1. 领养详情页（左内容 + 右侧边栏）
+   -------------------------------------------------------- */
+.adoption-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
+  gap: 3rem;
+  padding-block: clamp(48px, 7vw, 96px);
+}
+
+.adoption-detail h1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  margin: 0.4rem 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--dark);
+}
+
+.adoption-detail__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 1.5rem;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.adoption-detail__meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.adoption-detail__meta span::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+.adoption-detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition: gap var(--transition-fast);
+}
+
+.adoption-detail__back:hover {
+  gap: 10px;
+  color: var(--primary-dark);
+}
+
+.adoption-detail__desc {
+  margin: 1.5rem 0;
+  color: var(--ink-secondary);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+/* 侧边栏 */
+.adoption-detail__aside {
+  align-self: start;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+  position: sticky;
+  top: 6rem;
+}
+
+.adoption-detail__aside h2 {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--dark);
+}
+
+.adoption-detail__aside .adoption-status {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--light-orange);
+  color: var(--primary-dark);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* 侧边栏表单 */
+.adoption-detail__aside form p {
+  margin-bottom: 1rem;
+}
+
+.adoption-detail__aside form label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--dark);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.adoption-detail__aside form input,
+.adoption-detail__aside form textarea,
+.adoption-detail__aside form select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--ink);
+  font-size: 15px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.adoption-detail__aside form input:focus,
+.adoption-detail__aside form textarea:focus,
+.adoption-detail__aside form select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.15);
+  outline: none;
+}
+
+.adoption-detail__aside form .helptext {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.adoption-detail__aside form .errorlist {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  color: var(--danger);
+  font-size: 13px;
+}
+
+.adoption-detail__aside .btn {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.adoption-detail__aside .btn--secondary {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.adoption-detail__aside > p {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* --------------------------------------------------------
+   2. 我的领养页面
+   -------------------------------------------------------- */
+.adoption-mine {
+  padding-block: clamp(48px, 7vw, 96px);
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.adoption-mine h1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  margin: 0.4rem 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--dark);
+}
+
+.adoption-mine h2 {
+  margin: 2.5rem 0 1rem;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--dark);
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.adoption-mine__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--line);
+  transition: padding var(--transition-fast);
+}
+
+.adoption-mine__row:hover {
+  padding-left: 8px;
+}
+
+.adoption-mine__row strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--dark);
+}
+
+.adoption-mine__row span {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--light-orange);
+  color: var(--primary-dark);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.adoption-mine__row p {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.adoption-mine__row a {
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.adoption-mine__row a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------
+   3. 响应式
+   -------------------------------------------------------- */
+@media (max-width: 800px) {
+  .adoption-detail {
+    grid-template-columns: 1fr;
+  }
+
+  .adoption-detail__aside {
+    position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .adoption-mine__row {
+    flex-direction: column;
+  }
+}

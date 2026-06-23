@@ -1,4 +1,41 @@
-{% extends "layouts/application.html" %}{% load static %}
+{% extends "layouts/application.html" %}
+{% load static %}
 {% block title %}我的领养{% endblock %}
 {% block extra_css %}<link rel="stylesheet" href="{% static 'adoptions/css/adoptions.css' %}">{% endblock %}
-{% block content %}<section class="site-container adoption-mine"><h1>我的领养</h1><h2>有效与历史领养</h2>{% for item in relationships %}<article><strong>{{ item.animal }}</strong><span>{{ item.get_status_display }}</span><p>{{ item.started_at }}{% if item.ended_at %} 至 {{ item.ended_at }}{% endif %}</p></article>{% empty %}<p>暂无领养关系。</p>{% endfor %}<h2>申请记录</h2>{% for item in applications %}<article><strong>{{ item.animal }}</strong><span>{{ item.get_status_display }}</span>{% if item.review_note %}<p>{{ item.review_note }}</p>{% endif %}</article>{% empty %}<p>暂无领养申请。</p>{% endfor %}</section>{% endblock %}
+
+{% block content %}
+<section class="site-container adoption-mine">
+  <span class="section-kicker">MY ADOPTION</span>
+  <h1>我的领养</h1>
+
+  <h2>有效与历史领养</h2>
+  {% for item in relationships %}
+  <article class="adoption-mine__row">
+    <div>
+      <strong>{{ item.animal }}</strong>
+      <p>{{ item.started_at|date:"Y-m-d" }}{% if item.ended_at %} 至 {{ item.ended_at|date:"Y-m-d" }}{% endif %}</p>
+    </div>
+    <div>
+      <span>{{ item.get_status_display }}</span>
+    </div>
+  </article>
+  {% empty %}
+  <div class="empty-state">暂无领养关系。</div>
+  {% endfor %}
+
+  <h2>申请记录</h2>
+  {% for item in applications %}
+  <article class="adoption-mine__row">
+    <div>
+      <strong>{{ item.animal }}</strong>
+      {% if item.review_note %}<p>{{ item.review_note }}</p>{% endif %}
+    </div>
+    <div>
+      <span>{{ item.get_status_display }}</span>
+    </div>
+  </article>
+  {% empty %}
+  <div class="empty-state">暂无领养申请。</div>
+  {% endfor %}
+</section>
+{% endblock %}

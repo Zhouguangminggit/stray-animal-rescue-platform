@@ -1,1 +1,30 @@
-{% extends "layouts/application.html" %}{% block title %}我的活动{% endblock %}{% block content %}<section class="site-container module-page"><h1>我的活动</h1>{% for item in participations %}<p>{{ item.activity }} · {{ item.get_status_display }}{% if item.status == 'registered' %}<form method="post" action="{% url 'activities:cancel' item.pk %}">{% csrf_token %}<button type="submit">取消报名</button></form>{% endif %}</p>{% empty %}<p>暂无活动记录。</p>{% endfor %}</section>{% endblock %}
+{% extends "layouts/application.html" %}
+{% load static %}
+{% block title %}我的活动{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'activities/css/activities.css' %}">{% endblock %}
+
+{% block content %}
+<section class="site-container activities-mine">
+  <span class="section-kicker">MY ACTIVITY</span>
+  <h1>我的活动</h1>
+
+  {% for item in participations %}
+  <article class="activities-mine__row">
+    <div>
+      <a href="{% url 'activities:detail' item.activity.pk %}">{{ item.activity }}</a>
+      <p style="margin:4px 0 0;color:var(--muted);font-size:13px;">{{ item.get_status_display }}</p>
+    </div>
+    <div>
+      {% if item.status == 'registered' %}
+      <form method="post" action="{% url 'activities:cancel' item.pk %}">
+        {% csrf_token %}
+        <button type="submit">取消报名</button>
+      </form>
+      {% endif %}
+    </div>
+  </article>
+  {% empty %}
+  <div class="empty-state">暂无活动记录。</div>
+  {% endfor %}
+</section>
+{% endblock %}
