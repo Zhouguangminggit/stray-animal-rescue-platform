@@ -10,7 +10,7 @@
 
 {% block content %}
   <section class="auth-shell">
-    <div class="auth-visual" aria-label="DjangoHarness 品牌展示">
+    <div class="auth-visual" aria-label="品牌展示">
       {% if media_page == "register" %}
         {% with media_path=auth_media.register %}{% include "accounts/media.html" %}{% endwith %}
       {% elif media_page == "password_reset" %}
@@ -19,14 +19,14 @@
         {% with media_path=auth_media.login %}{% include "accounts/media.html" %}{% endwith %}
       {% endif %}
       <div class="auth-visual-copy">
-        <span>DJANGOHARNESS</span>
-        <h1>让每一次构建，都有可靠的工程底座。</h1>
+        <span>{{ site_name }}</span>
+        <h1>让每一次相遇，都带来温暖与希望。</h1>
       </div>
     </div>
     <div class="auth-panel">
       <a class="auth-brand" href="{% url 'home' %}">
-        <img src="{% static 'accounts/brand/logo.png' %}" alt="DjangoHarness">
-        <span>DjangoHarness</span>
+        <img src="{% static 'accounts/brand/logo.png' %}" alt="{{ site_name }}">
+        <span>{{ site_name }}</span>
       </a>
       <div class="auth-form-wrap">{% block auth_content %}{% endblock %}</div>
     </div>

@@ -1,26 +1,91 @@
+/* ============================================================
+   流浪动物救助平台 — 基础设计系统（暖橙主题）
+   基于 home-style 首页风格：#FF8C42 主色 + 暖白背景
+   ============================================================ */
+
+/* --------------------------------------------------------
+   1. 设计令牌（CSS 变量）
+   -------------------------------------------------------- */
 :root {
-  --brand-brown: #00E58F;
-  --brand-brown-deep: #ffffff;
-  --brand-olive: #00E58F;
-  --brand-lime: #00E58F;
-  --ink: #f4f5ee;
-  --muted: #959e84;
-  --line: #1e2417;
-  --paper: #090a07;
-  --paper-deep: #12140d;
-  --white: #fff;
-  --danger: #ff5f56;
-  --shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
-  --font-display: Georgia, "Times New Roman", serif;
-  --font-body: "Avenir Next", "Noto Sans SC", "PingFang SC", sans-serif;
+  /* 品牌色 */
+  --primary: #FF8C42;
+  --primary-dark: #E56A21;
+  --primary-light: #FFA726;
+  --accent: #FF7043;
+
+  /* 中性色 */
+  --dark: #2D2A26;
+  --dark-soft: #3E3A36;
+  --ink: #2D2A26;
+  --ink-secondary: #5A5550;
+  --muted: #8A8580;
+  --line: #E8E0D8;
+  --line-light: #F0EAE3;
+
+  /* 背景色 */
+  --paper: #FFF8F0;
+  --paper-deep: #FFF0E0;
+  --warm-white: #FFF8F0;
+  --light-orange: #FFF0E0;
+  --border-orange: #FFE0C0;
+
+  /* 功能色 */
+  --success: #4CAF50;
+  --success-bg: #E8F5E9;
+  --success-border: #C8E6C9;
+  --warning: #FF9800;
+  --warning-bg: #FFF3E0;
+  --warning-border: #FFE0B2;
+  --danger: #EF5350;
+  --danger-bg: #FFEBEE;
+  --danger-border: #FFCDD2;
+  --info: #42A5F5;
+  --info-bg: #E3F2FD;
+  --info-border: #BBDEFB;
+
+  /* 白色与阴影 */
+  --white: #FFFFFF;
+  --shadow-sm: 0 2px 8px rgba(45, 42, 38, 0.06);
+  --shadow: 0 8px 24px rgba(45, 42, 38, 0.10);
+  --shadow-lg: 0 24px 64px rgba(45, 42, 38, 0.14);
+  --shadow-card: 0 4px 16px rgba(255, 140, 66, 0.08);
+  --shadow-card-hover: 0 12px 32px rgba(255, 140, 66, 0.14);
+
+  /* 字体栈 */
+  --font-display: "ZCOOL XiaoWei", "Manrope", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", serif;
+  --font-body: "Manrope", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+
+  /* 圆角 */
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* 间距 */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+  --space-2xl: 96px;
+
+  /* 过渡 */
+  --transition-fast: 150ms ease;
+  --transition: 220ms ease;
+  --transition-slow: 350ms ease;
 }
 
+/* --------------------------------------------------------
+   2. 重置与全局规则
+   -------------------------------------------------------- */
 * {
   box-sizing: border-box;
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: light;
   scroll-behavior: smooth;
 }
 
@@ -29,8 +94,11 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-body);
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.7;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 img,
@@ -44,19 +112,29 @@ input,
 textarea,
 select {
   font: inherit;
+  color: inherit;
 }
 
 a {
   color: inherit;
+  text-decoration: none;
 }
 
 :focus-visible {
-  outline: 3px solid rgba(102, 121, 58, 0.34);
+  outline: 3px solid rgba(255, 140, 66, 0.35);
   outline-offset: 3px;
 }
 
+::selection {
+  background: rgba(255, 140, 66, 0.25);
+  color: var(--dark);
+}
+
+/* --------------------------------------------------------
+   3. 布局工具类
+   -------------------------------------------------------- */
 .site-container {
-  width: min(1180px, calc(100% - 48px));
+  width: min(1200px, calc(100% - 48px));
   margin-inline: auto;
 }
 
@@ -64,20 +142,50 @@ a {
   min-height: calc(100vh - 76px);
 }
 
+/* 区块标题 */
 .section-kicker {
+  margin: 0 0 8px;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.section-title {
+  margin: 0 0 16px;
+  color: var(--dark);
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.section-lead {
+  margin: 0 0 32px;
+  color: var(--ink-secondary);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* 渐变文字 */
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 分隔线 */
+.section-divider {
   margin: 0;
-  color: var(--brand-olive);
-  font-size: 12px;
-  font-weight: 750;
-  letter-spacing: 0.19em;
+  border: 0;
+  border-top: 1px solid var(--line);
 }
 
-@media (max-width: 640px) {
-  .site-container {
-    width: min(100% - 32px, 1180px);
-  }
-}
-
+/* --------------------------------------------------------
+   4. 无障碍与动画偏好
+   -------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -86,5 +194,14 @@ a {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* --------------------------------------------------------
+   5. 响应式断点工具
+   -------------------------------------------------------- */
+@media (max-width: 640px) {
+  .site-container {
+    width: min(100% - 32px, 1200px);
   }
 }

@@ -1,6 +1,6 @@
 .profile-page {
   background:
-    radial-gradient(circle at 12% 12%, rgba(154, 186, 85, 0.13), transparent 28%),
+    radial-gradient(circle at 12% 12%, rgba(255, 140, 66, 0.13), transparent 28%),
     var(--paper);
 }
 
@@ -16,12 +16,12 @@
   position: relative;
   align-self: start;
   padding: 34px;
-  border: 1px solid rgba(0, 229, 143, 0.15);
+  border: 1px solid rgba(255, 140, 66, 0.15);
   border-radius: 2px 44px 2px 2px;
-  background: rgba(22, 28, 18, 0.4);
+  background: var(--white);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 28px 70px rgba(45, 42, 38, 0.08);
 }
 
 .profile-summary::after {
@@ -30,8 +30,8 @@
   bottom: 24px;
   width: 52px;
   height: 52px;
-  border-right: 1px solid rgba(128, 84, 31, 0.25);
-  border-bottom: 1px solid rgba(128, 84, 31, 0.25);
+  border-right: 1px solid rgba(255, 140, 66, 0.25);
+  border-bottom: 1px solid rgba(255, 140, 66, 0.25);
   content: "";
   transform: rotate(45deg);
 }
@@ -43,8 +43,8 @@
   margin-top: 34px;
   place-items: center;
   border-radius: 50%;
-  background: linear-gradient(145deg, var(--brand-brown), var(--brand-olive));
-  box-shadow: 0 16px 34px rgba(85, 79, 38, 0.2);
+  background: linear-gradient(145deg, var(--primary), var(--primary-light));
+  box-shadow: 0 16px 34px rgba(45, 42, 38, 0.15);
   color: var(--white);
   font: 500 38px/1 var(--font-display);
   overflow: hidden;
@@ -58,7 +58,7 @@
 
 .profile-summary h1 {
   margin: 22px 0 8px;
-  color: var(--brand-brown-deep);
+  color: var(--dark);
   font: 500 clamp(32px, 4vw, 48px) / 1.1 var(--font-display);
   overflow-wrap: anywhere;
 }
@@ -79,7 +79,7 @@
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  border-bottom: 1px solid rgba(102, 121, 58, 0.13);
+  border-bottom: 1px solid rgba(255, 140, 66, 0.13);
   padding-bottom: 10px;
   font-size: 13px;
 }
@@ -90,7 +90,7 @@
 
 .profile-summary dd {
   margin: 0;
-  color: var(--brand-olive);
+  color: var(--primary);
   font-weight: 650;
 }
 
@@ -124,7 +124,7 @@
   text-decoration: none;
 }
 
-.profile-business__grid strong { color: var(--brand-olive); font: 42px var(--font-display); }
+.profile-business__grid strong { color: var(--primary); font: 42px var(--font-display); }
 .profile-business__records { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 28px; }
 .profile-business__records > div { padding: 22px; border: 1px solid var(--line); }
 .profile-business__records h3 { margin-top: 0; font: 26px var(--font-display); }
@@ -139,7 +139,7 @@
 .profile-editor h2,
 .password-editor h2 {
   margin: 10px 0 8px;
-  color: var(--brand-brown-deep);
+  color: var(--dark);
   font: 500 clamp(36px, 5vw, 58px) / 1.08 var(--font-display);
 }
 
@@ -185,20 +185,20 @@
   border: 1px solid var(--line);
   border-radius: 8px;
   outline: none;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--white);
   color: var(--ink);
 }
 
 .profile-form input:disabled {
-  background: var(--paper-deep);
+  background: var(--line-light);
   color: var(--muted);
   cursor: not-allowed;
 }
 
 .profile-form input:focus,
 .password-form input:focus {
-  border-color: var(--brand-olive);
-  box-shadow: 0 0 0 3px rgba(102, 121, 58, 0.13);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.15);
 }
 
 .profile-form small,
@@ -223,9 +223,9 @@
   grid-column: 1 / -1;
   margin-bottom: 18px;
   padding: 18px;
-  border: 1px dashed rgba(0, 229, 143, 0.35);
+  border: 1px dashed rgba(255, 140, 66, 0.35);
   border-radius: 12px;
-  background: rgba(0, 229, 143, 0.05);
+  background: rgba(255, 140, 66, 0.05);
 }
 
 .avatar-field input[type="file"] {
@@ -241,7 +241,7 @@
   padding: 8px 14px;
   border: 0;
   border-radius: 999px;
-  background: var(--brand-olive);
+  background: var(--primary);
   color: var(--white);
   cursor: pointer;
 }
@@ -268,15 +268,15 @@
   padding: 0 28px;
   border: 0;
   border-radius: 999px;
-  background: linear-gradient(110deg, var(--brand-brown), var(--brand-olive));
-  box-shadow: 0 12px 30px rgba(94, 91, 45, 0.2);
+  background: linear-gradient(110deg, var(--primary), var(--primary-light));
+  box-shadow: 0 12px 30px rgba(45, 42, 38, 0.12);
   color: var(--white);
   cursor: pointer;
   font-weight: 700;
 }
 
 .profile-actions a {
-  color: var(--brand-olive);
+  color: var(--primary);
   font-size: 14px;
   font-weight: 650;
 }

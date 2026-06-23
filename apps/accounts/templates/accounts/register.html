@@ -1,7 +1,7 @@
 {% extends "accounts/auth_base.html" %}
 
 {% block auth_content %}
-  <p class="eyebrow">加入 DjangoHarness</p>
+  <p class="eyebrow">加入我们</p>
   <h2>创建新账号</h2>
   <div class="auth-tabs" role="tablist">
     <a class="{% if mode != 'phone' %}active{% endif %}" href="{% url 'accounts:register' %}?mode=account">账号注册</a>

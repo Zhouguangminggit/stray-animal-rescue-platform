@@ -1,0 +1,121 @@
+/* ============================================================
+   按钮组件
+   ============================================================ */
+
+/* 基础按钮 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  color: var(--white);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(255, 140, 66, 0.35);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(255, 140, 66, 0.25);
+}
+
+/* 次要按钮（边框） */
+.btn--secondary {
+  background: transparent;
+  border: 1.5px solid var(--primary);
+  color: var(--primary);
+}
+
+.btn--secondary:hover {
+  background: var(--primary);
+  color: var(--white);
+  box-shadow: 0 4px 14px rgba(255, 140, 66, 0.22);
+}
+
+/* 幽灵按钮（暗背景上） */
+.btn--ghost {
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  color: var(--white);
+}
+
+.btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: none;
+  transform: translateY(-1px);
+}
+
+/* 宽按钮（全宽） */
+.btn--wide {
+  display: flex;
+  width: 100%;
+  padding: 14px 24px;
+}
+
+/* 小按钮 */
+.btn--sm {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+/* 大按钮 */
+.btn--lg {
+  padding: 16px 32px;
+  font-size: 16px;
+}
+
+/* 图标按钮 */
+.btn--icon {
+  padding: 10px;
+  border-radius: 50%;
+}
+
+/* 禁用状态 */
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* 链接按钮（文字按钮） */
+.btn--link {
+  padding: 0;
+  background: transparent;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.btn--link:hover {
+  background: transparent;
+  color: var(--primary-dark);
+  box-shadow: none;
+  transform: none;
+  text-decoration: underline;
+}
+
+/* 带箭头 */
+.btn .arrow {
+  transition: transform var(--transition);
+}
+
+.btn:hover .arrow {
+  transform: translateX(3px);
+}

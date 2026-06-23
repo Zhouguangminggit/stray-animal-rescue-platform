@@ -1,0 +1,216 @@
+/* ============================================================
+   表单组件
+   ============================================================ */
+
+/* 表单字段容器 */
+.field {
+  margin-bottom: 20px;
+}
+
+.field > label,
+.field-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--dark);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.field-label .required {
+  color: var(--danger);
+  margin-left: 2px;
+}
+
+/* 输入框通用样式 */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="number"],
+input[type="url"],
+input[type="search"],
+textarea,
+select {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  outline: none;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.5;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover,
+input[type="tel"]:hover,
+input[type="number"]:hover,
+input[type="url"]:hover,
+input[type="search"]:hover,
+textarea:hover,
+select:hover {
+  border-color: var(--border-orange);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.15);
+}
+
+/* 禁用状态 */
+input:disabled,
+textarea:disabled,
+select:disabled {
+  background: var(--line-light);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+/* 文本域 */
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* 选择框 */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238A8580' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+/* 复选框和单选框 */
+.check-label,
+.radio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--ink-secondary);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* 内联字段 */
+.field-control {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.field-control input {
+  flex: 1 1 auto;
+}
+
+.field-control .btn {
+  flex: 0 0 auto;
+  margin-top: 0;
+}
+
+/* 帮助文本 */
+.field small,
+.field .helptext {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* 错误列表 */
+.field ul.errorlist,
+.form-errors ul.errorlist {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  color: var(--danger);
+  font-size: 13px;
+}
+
+.form-errors {
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  border-radius: var(--radius-sm);
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  color: var(--danger);
+  font-size: 14px;
+}
+
+/* 表单行 */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 搜索框 */
+.search-field {
+  position: relative;
+}
+
+.search-field input {
+  padding-left: 42px;
+}
+
+.search-field__icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+
+/* 代码/验证码按钮 */
+.code-button {
+  flex: 0 0 120px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--primary);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.code-button:hover {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.code-button:disabled {
+  border-color: var(--line);
+  color: var(--muted);
+  background: var(--line-light);
+  cursor: wait;
+}
