@@ -22,6 +22,19 @@
     </aside>
 
     <div class="profile-content">
+      <section class="profile-business" aria-labelledby="business-overview-title">
+        <header><p class="section-kicker">MY RESCUE JOURNEY</p><h2 id="business-overview-title">我的参与</h2><p>救助、领养、志愿服务与公益参与记录。</p></header>
+        <div class="profile-business__grid">
+          <a href="{% url 'animals:my_rescues' %}"><strong>{{ rescue_requests|length }}</strong><span>救助申请</span></a>
+          <a href="{% url 'adoptions:mine' %}"><strong>{{ adoption_relationships|length }}</strong><span>有效领养</span></a>
+          <a href="{% url 'volunteers:mine' %}"><strong>{% if volunteer_profile %}1{% else %}0{% endif %}</strong><span>志愿者身份</span></a>
+          <a href="{% url 'notifications:list' %}"><strong>{{ recent_notifications|length }}</strong><span>近期通知</span></a>
+        </div>
+        <div class="profile-business__records">
+          <div><h3>近期认捐</h3>{% for item in pledges %}<p>{{ item.item.project }} · {{ item.item.name }} · {{ item.get_status_display }}</p>{% empty %}<p>暂无记录。</p>{% endfor %}<a href="{% url 'donations:mine' %}">查看全部 →</a></div>
+          <div><h3>近期活动</h3>{% for item in participations %}<p>{{ item.activity }} · {{ item.get_status_display }}</p>{% empty %}<p>暂无记录。</p>{% endfor %}<a href="{% url 'activities:mine' %}">查看全部 →</a></div>
+        </div>
+      </section>
       <section class="profile-editor" aria-labelledby="profile-details-title">
         <header>
           <p class="section-kicker">PROFILE DETAILS</p>

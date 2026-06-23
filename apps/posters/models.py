@@ -6,6 +6,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 
+from apps.core.validators import validate_image_size
+
 
 def poster_upload_to(instance: object, filename: str) -> str:
     extension = Path(filename).suffix.lower() or ".jpg"
@@ -29,7 +31,9 @@ class Poster(models.Model):
 
     title = models.CharField("标题", max_length=150)
     subtitle = models.CharField("副标题", max_length=300, blank=True)
-    image = models.ImageField("海报图片", upload_to=poster_upload_to)
+    image = models.ImageField(
+        "海报图片", upload_to=poster_upload_to, validators=(validate_image_size,)
+    )
     link = models.CharField("跳转链接", max_length=500, blank=True)
     page = models.CharField(
         "展示页面", max_length=20, choices=Page.choices, default=Page.HOME

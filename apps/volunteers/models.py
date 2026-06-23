@@ -5,6 +5,7 @@ from django.conf import settings
 from django.db import models
 
 from apps.animals.models import ReviewStatus
+from apps.core.validators import validate_document_size, validate_image_size
 
 
 def volunteer_material_upload_to(instance: object, filename: str) -> str:
@@ -29,7 +30,10 @@ class VolunteerApplication(models.Model):
     availability = models.CharField("可服务时间", max_length=255)
     experience = models.TextField("相关经验", blank=True)
     material = models.FileField(
-        "申请材料", upload_to=volunteer_material_upload_to, blank=True
+        "申请材料",
+        upload_to=volunteer_material_upload_to,
+        blank=True,
+        validators=(validate_document_size,),
     )
     status = models.CharField(
         "审核状态",
@@ -105,7 +109,12 @@ class CommunityArticle(models.Model):
     title = models.CharField("标题", max_length=150)
     summary = models.CharField("摘要", max_length=300)
     content = models.TextField("正文")
-    cover = models.ImageField("封面图", upload_to=article_cover_upload_to, blank=True)
+    cover = models.ImageField(
+        "封面图",
+        upload_to=article_cover_upload_to,
+        blank=True,
+        validators=(validate_image_size,),
+    )
     tags = models.ManyToManyField(
         "tags.Tag", related_name="community_articles", blank=True, verbose_name="标签"
     )

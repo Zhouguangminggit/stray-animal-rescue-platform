@@ -13,12 +13,20 @@
     <div class="dashboard-heading">
       <div>
         <span class="dashboard-eyebrow">OVERVIEW</span>
-        <h1>用户数据概览</h1>
-        <p>集中查看账号规模、活跃状态和近期增长趋势。</p>
+        <h1>救助平台运营概览</h1>
+        <p>集中查看用户、救助、领养、志愿者与公益项目。</p>
       </div>
       <a class="dashboard-primary" href="{% url 'admin:accounts_user_add' %}">
         <i class="fas fa-user-plus"></i> 新增用户
       </a>
+    </div>
+    <div class="dashboard-metrics dashboard-metrics--business">
+      <article><span>公开动物</span><strong>{{ dashboard.business.animals }}</strong><small>当前展示档案</small></article>
+      <article><span>待审救助</span><strong>{{ dashboard.business.pending_rescues }}</strong><small>需要及时处理</small></article>
+      <article><span>有效领养</span><strong>{{ dashboard.business.active_adoptions }}</strong><small>当前领养关系</small></article>
+      <article><span>活跃志愿者</span><strong>{{ dashboard.business.volunteers }}</strong><small>可参与服务</small></article>
+      <article><span>捐赠项目</span><strong>{{ dashboard.business.open_donations }}</strong><small>正在进行</small></article>
+      <article><span>开放活动</span><strong>{{ dashboard.business.open_activities }}</strong><small>可报名活动</small></article>
     </div>
     <div class="dashboard-metrics">
       <article><span>用户总数</span><strong>{{ dashboard.summary.total }}</strong><small>全部注册账号</small></article>

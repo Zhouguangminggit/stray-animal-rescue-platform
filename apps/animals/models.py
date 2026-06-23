@@ -4,6 +4,8 @@ from pathlib import Path
 from django.conf import settings
 from django.db import models
 
+from apps.core.validators import validate_image_size
+
 
 def animal_image_upload_to(instance: object, filename: str) -> str:
     extension = Path(filename).suffix.lower() or ".jpg"
@@ -134,7 +136,9 @@ class AnimalImage(models.Model):
     animal = models.ForeignKey(
         Animal, on_delete=models.CASCADE, related_name="images", verbose_name="动物"
     )
-    image = models.ImageField("图片", upload_to=animal_image_upload_to)
+    image = models.ImageField(
+        "图片", upload_to=animal_image_upload_to, validators=(validate_image_size,)
+    )
     caption = models.CharField("说明", max_length=100, blank=True)
     is_cover = models.BooleanField("封面图", default=False)
     sort_order = models.PositiveIntegerField("排序", default=0)
@@ -226,7 +230,9 @@ class RescueRequestImage(models.Model):
         related_name="images",
         verbose_name="救助申请",
     )
-    image = models.ImageField("图片", upload_to=rescue_image_upload_to)
+    image = models.ImageField(
+        "图片", upload_to=rescue_image_upload_to, validators=(validate_image_size,)
+    )
     sort_order = models.PositiveIntegerField("排序", default=0)
 
     class Meta:

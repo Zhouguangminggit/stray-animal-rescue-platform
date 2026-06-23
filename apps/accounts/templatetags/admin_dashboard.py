@@ -6,6 +6,11 @@ from django.db.models.functions import TruncMonth
 from django.utils import timezone
 
 from apps.accounts.models import User
+from apps.activities.models import Activity
+from apps.adoptions.models import AdoptionRelationship
+from apps.animals.models import Animal, RescueRequest, ReviewStatus
+from apps.donations.models import DonationProject
+from apps.volunteers.models import VolunteerProfile
 
 register = template.Library()
 
@@ -44,4 +49,22 @@ def user_dashboard_data() -> dict[str, object]:
             "values": [monthly.get(label, 0) for label in labels],
         },
         "status": {"active": active, "inactive": total - active},
+        "business": {
+            "animals": Animal.objects.filter(is_published=True).count(),
+            "pending_rescues": RescueRequest.objects.filter(
+                status=ReviewStatus.PENDING
+            ).count(),
+            "active_adoptions": AdoptionRelationship.objects.filter(
+                status=AdoptionRelationship.Status.ACTIVE
+            ).count(),
+            "volunteers": VolunteerProfile.objects.filter(
+                status=VolunteerProfile.Status.ACTIVE
+            ).count(),
+            "open_donations": DonationProject.objects.filter(
+                status=DonationProject.Status.OPEN
+            ).count(),
+            "open_activities": Activity.objects.filter(
+                status=Activity.Status.OPEN
+            ).count(),
+        },
     }

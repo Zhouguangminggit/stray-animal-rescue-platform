@@ -34,10 +34,11 @@ def test_admin_dashboard_shows_user_metrics(admin_user, client: Client) -> None:
 
     assert response.status_code == 200
     content = response.content.decode()
-    assert "用户数据概览" in content
+    assert "救助平台运营概览" in content
     assert "user-growth-chart" in content
     assert '"total": 2' in content
     assert '"inactive": 1' in content
+    assert '"pending_rescues": 0' in content
 
 
 @pytest.mark.django_db

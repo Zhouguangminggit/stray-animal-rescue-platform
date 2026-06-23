@@ -132,6 +132,26 @@ def test_profile_requires_login(client: Client) -> None:
 
 
 @pytest.mark.django_db
+def test_profile_business_records_are_isolated_to_current_user(client: Client) -> None:
+    user = User.objects.create_user(
+        username="profile-owner", email="profile-owner@example.com", password=PASSWORD
+    )
+    other = User.objects.create_user(
+        username="profile-other", email="profile-other@example.com", password=PASSWORD
+    )
+    from apps.notifications.models import Notification
+
+    Notification.objects.create(recipient=user, title="我的通知", content="我的内容")
+    Notification.objects.create(recipient=other, title="他人通知", content="他人内容")
+    client.force_login(user)
+
+    content = client.get(reverse("accounts:profile")).content.decode()
+
+    assert "我的参与" in content
+    assert "他人通知" not in content
+
+
+@pytest.mark.django_db
 def test_profile_updates_display_and_login_information(user, client: Client) -> None:
     client.force_login(user)
     response = client.post(

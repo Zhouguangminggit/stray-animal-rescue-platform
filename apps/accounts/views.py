@@ -1,5 +1,6 @@
 import json
 import re
+from typing import Any, cast
 
 from django.conf import settings
 from django.contrib import messages
@@ -11,6 +12,13 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
+
+from apps.activities.models import Participation
+from apps.adoptions.models import AdoptionApplication, AdoptionRelationship
+from apps.animals.models import RescueRequest
+from apps.donations.models import Pledge
+from apps.notifications.models import Notification
+from apps.volunteers.models import VolunteerApplication, VolunteerProfile
 
 from .forms import (
     LoginForm,
@@ -82,6 +90,7 @@ def register(request: HttpRequest):
 @login_required
 def profile(request: HttpRequest):
     action = request.POST.get("action")
+    business_user = cast(Any, request.user)
     profile_form = ProfileForm(
         request.POST if action == "profile" else None,
         request.FILES if action == "profile" else None,
@@ -103,7 +112,34 @@ def profile(request: HttpRequest):
     return render(
         request,
         "accounts/profile.html",
-        {"profile_form": profile_form, "password_form": password_form},
+        {
+            "profile_form": profile_form,
+            "password_form": password_form,
+            "rescue_requests": RescueRequest.objects.filter(applicant=business_user)[
+                :5
+            ],
+            "adoption_applications": AdoptionApplication.objects.filter(
+                applicant=business_user
+            ).select_related("animal")[:5],
+            "adoption_relationships": AdoptionRelationship.objects.filter(
+                adopter=business_user, status=AdoptionRelationship.Status.ACTIVE
+            ).select_related("animal"),
+            "volunteer_applications": VolunteerApplication.objects.filter(
+                applicant=business_user
+            )[:5],
+            "volunteer_profile": VolunteerProfile.objects.filter(
+                user=business_user
+            ).first(),
+            "pledges": Pledge.objects.filter(user=business_user).select_related(
+                "item", "item__project"
+            )[:5],
+            "participations": Participation.objects.filter(
+                user=business_user
+            ).select_related("activity")[:5],
+            "recent_notifications": Notification.objects.filter(
+                recipient=business_user
+            )[:5],
+        },
     )
 
 

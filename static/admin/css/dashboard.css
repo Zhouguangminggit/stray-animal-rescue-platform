@@ -5,6 +5,7 @@
 .dashboard-heading p, .dashboard-panel p { margin: 0; color: #788397; }
 .dashboard-primary { display: inline-flex; align-items: center; gap: 8px; padding: 11px 16px; border-radius: 9px; background: #3559e0; color: #fff !important; box-shadow: 0 8px 20px rgba(53,89,224,.2); }
 .dashboard-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 16px; }
+.dashboard-metrics--business { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 .dashboard-metrics article, .dashboard-panel { border: 1px solid #e6eaf1; border-radius: 13px; background: #fff; box-shadow: 0 5px 18px rgba(24,32,51,.035); }
 .dashboard-metrics article { padding: 20px; }
 .dashboard-metrics span { display: block; color: #687489; font-weight: 600; }

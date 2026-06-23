@@ -63,3 +63,14 @@ def test_home_uses_business_dashboard_and_empty_states(client) -> None:
     assert "让每一个" in content
     assert "最新救助档案" in content
     assert "急需物资" in content
+
+
+def test_upload_size_validator_rejects_oversized_poster() -> None:
+    poster = Poster(
+        title="超大海报",
+        image=SimpleUploadedFile("large.jpg", b"x" * (5 * 1024 * 1024 + 1)),
+        page=Poster.Page.HOME,
+        slot=Poster.Slot.BANNER,
+    )
+    with pytest.raises(ValidationError, match="5MB"):
+        poster.full_clean()
