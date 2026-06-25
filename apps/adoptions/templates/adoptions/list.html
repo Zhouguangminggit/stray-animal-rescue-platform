@@ -14,6 +14,24 @@
     {% if user.is_authenticated %}<a class="btn btn--secondary" href="{% url 'adoptions:mine' %}">我的领养</a>{% endif %}
   </header>
 
+  <section class="module-insights" aria-label="领养数据概览">
+    <div class="module-stat-grid">
+      <article><strong>{{ module_stats.available }}</strong><span>待领养</span></article>
+      <article><strong>{{ module_stats.adopted }}</strong><span>已领养</span></article>
+      <article><strong>{{ module_stats.relationships }}</strong><span>稳定关系</span></article>
+      <article><strong>{{ module_stats.applications }}</strong><span>申请记录</span></article>
+    </div>
+    <div class="module-process">
+      <span>领养流程</span>
+      <ol>
+        <li>了解档案</li>
+        <li>提交申请</li>
+        <li>审核沟通</li>
+        <li>回访陪伴</li>
+      </ol>
+    </div>
+  </section>
+
   <form class="animals-filters" method="get">
     <select name="category">
       <option value="">全部类型</option>
@@ -42,11 +60,42 @@
     <button type="submit">筛选</button>
   </form>
 
+  <section class="module-feature-grid" aria-label="领养推荐与校区分布">
+    {% if featured_animal %}
+    <article class="module-feature-card">
+      <p class="section-kicker">FEATURED</p>
+      <h2>本周推荐领养</h2>
+      <div class="module-feature-card__body">
+        {% with cover=featured_animal.cover_image %}
+        {% if cover %}<img src="{{ cover.image.url }}" alt="{{ featured_animal }}" loading="lazy" decoding="async">{% endif %}
+        {% endwith %}
+        <div>
+          <strong>{{ featured_animal }}</strong>
+          <span>{{ featured_animal.category }} · {{ featured_animal.campus }}</span>
+          <p>{{ featured_animal.description|truncatechars:86 }}</p>
+          <a href="{% url 'adoptions:detail' featured_animal.pk %}">查看详情</a>
+        </div>
+      </div>
+    </article>
+    {% endif %}
+    <article class="module-feature-card">
+      <p class="section-kicker">CAMPUS</p>
+      <h2>校区待领养概览</h2>
+      <div class="module-mini-list">
+        {% for campus in campus_snapshots %}
+        <span><strong>{{ campus.name }}</strong>{{ campus.available_animals }} 只待领养</span>
+        {% empty %}
+        <span>暂无校区待领养数据</span>
+        {% endfor %}
+      </div>
+    </article>
+  </section>
+
   <div class="animals-grid">
     {% for animal in page_obj %}
     <article class="animal-card">
       {% with cover=animal.cover_image %}
-      {% if cover %}<img src="{{ cover.image.url }}" alt="{{ animal }}">{% else %}<div style="height:220px;background:var(--light-orange);display:flex;align-items:center;justify-content:center;color:var(--muted);">暂无图片</div>{% endif %}
+      {% if cover %}<img src="{{ cover.image.url }}" alt="{{ animal }}" loading="lazy" decoding="async">{% else %}<div class="animal-card__placeholder">暂无图片</div>{% endif %}
       {% endwith %}
       <div>
         <span>{{ animal.get_adoption_status_display }}</span>

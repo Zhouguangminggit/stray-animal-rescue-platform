@@ -286,6 +286,7 @@
 .pets-scroll-container {
   display: flex;
   gap: 20px;
+  contain: layout paint;
   overflow-x: auto;
   scroll-snap-type: x proximity;
   overscroll-behavior-x: contain;

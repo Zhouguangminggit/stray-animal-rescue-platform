@@ -3,6 +3,7 @@ from typing import Any, cast
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db.models import Count, Q
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
@@ -53,6 +54,38 @@ def adoption_list(request: HttpRequest) -> HttpResponse:
                 (Animal.AdoptionStatus.AVAILABLE, "待领养"),
                 (Animal.AdoptionStatus.ADOPTED, "已领养"),
             ),
+            "module_stats": {
+                "available": Animal.objects.filter(
+                    is_published=True,
+                    adoption_status=Animal.AdoptionStatus.AVAILABLE,
+                ).count(),
+                "adopted": Animal.objects.filter(
+                    is_published=True,
+                    adoption_status=Animal.AdoptionStatus.ADOPTED,
+                ).count(),
+                "relationships": AdoptionRelationship.objects.filter(
+                    status=AdoptionRelationship.Status.ACTIVE
+                ).count(),
+                "applications": AdoptionApplication.objects.count(),
+            },
+            "featured_animal": Animal.objects.filter(
+                is_published=True,
+                adoption_status=Animal.AdoptionStatus.AVAILABLE,
+            )
+            .select_related("category", "campus")
+            .prefetch_related("images", "tags")
+            .first(),
+            "campus_snapshots": Campus.objects.filter(is_active=True)
+            .annotate(
+                available_animals=Count(
+                    "animals",
+                    filter=Q(
+                        animals__is_published=True,
+                        animals__adoption_status=Animal.AdoptionStatus.AVAILABLE,
+                    ),
+                )
+            )
+            .order_by("-available_animals", "name")[:3],
             "faqs": faqs_for(FAQModule.ADOPTION),
         },
     )

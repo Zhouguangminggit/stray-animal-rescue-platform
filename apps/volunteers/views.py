@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db import IntegrityError
+from django.db.models import Count
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
@@ -34,6 +35,27 @@ def community_list(request: HttpRequest) -> HttpResponse:
         {
             "articles": articles,
             "page_obj": posts,
+            "module_stats": {
+                "active_volunteers": VolunteerProfile.objects.filter(
+                    status=VolunteerProfile.Status.ACTIVE
+                ).count(),
+                "articles": CommunityArticle.objects.filter(
+                    is_published=True, published_at__isnull=False
+                ).count(),
+                "posts": CommunityPost.objects.filter(is_hidden=False).count(),
+                "pending_applications": VolunteerApplication.objects.filter(
+                    status=ReviewStatus.PENDING
+                ).count(),
+            },
+            "skill_snapshots": VolunteerProfile.objects.filter(
+                status=VolunteerProfile.Status.ACTIVE
+            )
+            .values("skills")
+            .annotate(total=Count("id"))
+            .order_by("-total", "skills")[:3],
+            "latest_profiles": VolunteerProfile.objects.filter(
+                status=VolunteerProfile.Status.ACTIVE
+            ).select_related("user")[:4],
             "faqs": faqs_for(FAQModule.VOLUNTEER),
         },
     )

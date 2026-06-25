@@ -2,6 +2,7 @@ from datetime import timedelta
 
 import pytest
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 from django.utils import timezone
 
 from apps.activities.models import Activity, Participation
@@ -48,6 +49,29 @@ def test_pledge_cannot_exceed_remaining_quantity(participation_context) -> None:
 
 
 @pytest.mark.django_db
+def test_donation_list_shows_summary_modules(client, participation_context) -> None:
+    _, _, now = participation_context
+    project = DonationProject.objects.create(
+        title="猫粮计划",
+        summary="急需猫粮",
+        description="说明",
+        status=DonationProject.Status.OPEN,
+        starts_at=now - timedelta(days=1),
+        ends_at=now + timedelta(days=1),
+    )
+    DonationItem.objects.create(
+        project=project, name="猫粮", unit="袋", required_quantity=5
+    )
+
+    response = client.get(reverse("donations:list"))
+    content = response.content.decode()
+
+    assert response.status_code == 200
+    assert "捐赠数据概览" in content
+    assert "急需物资" in content
+
+
+@pytest.mark.django_db
 def test_activity_capacity_and_cancel_release_place(participation_context) -> None:
     user, campus, now = participation_context
     other = get_user_model().objects.create_user(
@@ -74,3 +98,28 @@ def test_activity_capacity_and_cancel_release_place(participation_context) -> No
         register_activity(user=other, activity_id=activity.pk).status
         == Participation.Status.REGISTERED
     )
+
+
+@pytest.mark.django_db
+def test_activity_list_shows_summary_modules(client, participation_context) -> None:
+    _, campus, now = participation_context
+    Activity.objects.create(
+        title="救助宣传",
+        summary="摘要",
+        content="内容",
+        campus=campus,
+        location="广场",
+        starts_at=now + timedelta(days=2),
+        ends_at=now + timedelta(days=2, hours=2),
+        registration_starts_at=now - timedelta(days=1),
+        registration_ends_at=now + timedelta(days=1),
+        capacity=12,
+        status=Activity.Status.OPEN,
+    )
+
+    response = client.get(reverse("activities:list"))
+    content = response.content.decode()
+
+    assert response.status_code == 200
+    assert "活动数据概览" in content
+    assert "校区活动概览" in content

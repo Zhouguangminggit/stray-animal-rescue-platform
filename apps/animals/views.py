@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db import transaction
+from django.db.models import Count, Q
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
@@ -43,6 +44,25 @@ def animal_list(request: HttpRequest) -> HttpResponse:
             "campuses": Campus.objects.filter(is_active=True),
             "health_choices": Animal._meta.get_field("health_status").choices,
             "status_choices": Animal.RescueStatus.choices,
+            "module_stats": {
+                "published": Animal.objects.filter(is_published=True).count(),
+                "waiting": Animal.objects.filter(
+                    is_published=True, rescue_status=Animal.RescueStatus.WAITING
+                ).count(),
+                "rescued": Animal.objects.filter(
+                    is_published=True, rescue_status=Animal.RescueStatus.RESCUED
+                ).count(),
+                "campuses": Campus.objects.filter(
+                    is_active=True, animals__is_published=True
+                )
+                .distinct()
+                .count(),
+            },
+            "campus_snapshots": Campus.objects.filter(is_active=True)
+            .annotate(
+                published_animals=Count("animals", filter=Q(animals__is_published=True))
+            )
+            .order_by("-published_animals", "name")[:3],
             "faqs": faqs_for(FAQModule.RESCUE),
         },
     )

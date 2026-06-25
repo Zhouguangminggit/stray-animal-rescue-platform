@@ -61,7 +61,7 @@
           <span class="star-decoration star-decoration--2">✦</span>
           <span class="star-decoration star-decoration--3">✦</span>
           <div class="about-section__image">
-            <img src="{% static 'core/img/about-volunteer.jpg' %}" alt="志愿者与救助动物">
+            <img src="{% static 'core/img/about-volunteer.jpg' %}" alt="志愿者与救助动物" loading="lazy" decoding="async">
           </div>
         </div>
       </div>
@@ -143,7 +143,7 @@
       </a>
       {% empty %}
       <div class="pet-card" style="opacity:0.6">
-        <div class="pet-card__media"><img src="{% static 'core/img/pet-doudou.jpg' %}" alt="暂无"></div>
+        <div class="pet-card__media"><img src="{% static 'core/img/pet-doudou.jpg' %}" alt="暂无" loading="lazy" decoding="async"></div>
         <div class="pet-card__body"><h3 class="pet-card__name">暂无公开档案</h3><p class="pet-card__desc">请稍后查看</p></div>
       </div>
       {% endfor %}
@@ -161,7 +161,7 @@
     <div class="involve-grid">
       <a href="{% url 'adoptions:list' %}" class="involve-card reveal">
         <div class="involve-card__media">
-          <img src="{% static 'core/img/adopt-family.jpg' %}" alt="领养">
+          <img src="{% static 'core/img/adopt-family.jpg' %}" alt="领养" loading="lazy" decoding="async">
         </div>
         <div class="involve-card__overlay"></div>
         <div class="involve-card__body">
@@ -172,7 +172,7 @@
       </a>
       <a href="{% url 'donations:list' %}" class="involve-card reveal">
         <div class="involve-card__media">
-          <img src="{% static 'core/img/donate-support.jpg' %}" alt="捐赠">
+          <img src="{% static 'core/img/donate-support.jpg' %}" alt="捐赠" loading="lazy" decoding="async">
         </div>
         <div class="involve-card__overlay"></div>
         <div class="involve-card__body">
@@ -183,7 +183,7 @@
       </a>
       <a href="{% url 'volunteers:community' %}" class="involve-card reveal">
         <div class="involve-card__media">
-          <img src="{% static 'core/img/volunteer-work.jpg' %}" alt="志愿者">
+          <img src="{% static 'core/img/volunteer-work.jpg' %}" alt="志愿者" loading="lazy" decoding="async">
         </div>
         <div class="involve-card__overlay"></div>
         <div class="involve-card__body">

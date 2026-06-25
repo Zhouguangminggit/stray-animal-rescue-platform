@@ -45,7 +45,8 @@ def test_home_page(client: Client) -> None:
     response = client.get(reverse("home"))
     assert response.status_code == 200
     content = response.content.decode()
-    assert "让每一个" in content
+    assert "给流浪动物" in content
+    assert "等待回家的" in content
     assert "Django Template Framework" not in content
 
 

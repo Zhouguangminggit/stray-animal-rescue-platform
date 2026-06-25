@@ -3,8 +3,10 @@ from typing import Any, cast
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db.models import Count, Q, Sum
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from django.views.decorators.http import require_POST
 
 from apps.faqs.models import FAQModule, faqs_for
@@ -24,6 +26,33 @@ def activity_list(request: HttpRequest) -> HttpResponse:
                 ),
                 12,
             ).get_page(request.GET.get("page")),
+            "module_stats": {
+                "open": Activity.objects.filter(status=Activity.Status.OPEN).count(),
+                "upcoming": Activity.objects.exclude(
+                    status__in=(Activity.Status.DRAFT, Activity.Status.CANCELLED)
+                )
+                .filter(starts_at__gte=timezone.now())
+                .count(),
+                "registered": Participation.objects.filter(
+                    status=Participation.Status.REGISTERED
+                ).count(),
+                "capacity": Activity.objects.filter(
+                    status=Activity.Status.OPEN
+                ).aggregate(total=Sum("capacity"))["total"]
+                or 0,
+            },
+            "campus_snapshots": Activity.objects.exclude(
+                status__in=(Activity.Status.DRAFT, Activity.Status.CANCELLED)
+            )
+            .values("campus__name")
+            .annotate(
+                total=Count("id"),
+                registered=Count(
+                    "participations",
+                    filter=Q(participations__status=Participation.Status.REGISTERED),
+                ),
+            )
+            .order_by("-total", "campus__name")[:3],
             "faqs": faqs_for(FAQModule.ACTIVITY),
         },
     )

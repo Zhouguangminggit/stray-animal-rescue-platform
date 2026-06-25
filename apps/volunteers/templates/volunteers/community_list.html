@@ -17,6 +17,49 @@
     </div>
   </header>
 
+  <section class="module-insights" aria-label="志愿者社区数据概览">
+    <div class="module-stat-grid">
+      <article><strong>{{ module_stats.active_volunteers }}</strong><span>活跃志愿者</span></article>
+      <article><strong>{{ module_stats.articles }}</strong><span>社区文章</span></article>
+      <article><strong>{{ module_stats.posts }}</strong><span>用户分享</span></article>
+      <article><strong>{{ module_stats.pending_applications }}</strong><span>待审核申请</span></article>
+    </div>
+    <div class="module-process">
+      <span>参与方式</span>
+      <ol>
+        <li>提交申请</li>
+        <li>完成审核</li>
+        <li>加入服务</li>
+        <li>分享经验</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="module-feature-grid" aria-label="志愿者能力与新人">
+    <article class="module-feature-card">
+      <p class="section-kicker">SKILLS</p>
+      <h2>志愿能力分布</h2>
+      <div class="module-mini-list">
+        {% for item in skill_snapshots %}
+        <span><strong>{{ item.skills|default:"综合协助" }}</strong>{{ item.total }} 人</span>
+        {% empty %}
+        <span>暂无志愿者能力数据</span>
+        {% endfor %}
+      </div>
+    </article>
+    <article class="module-feature-card">
+      <p class="section-kicker">NEW MEMBERS</p>
+      <h2>最近加入</h2>
+      <div class="module-mini-list">
+        {% for profile in latest_profiles %}
+        <span><strong>{{ profile.user.display_name }}</strong>{{ profile.availability }}</span>
+        {% empty %}
+        <span>暂无活跃志愿者</span>
+        {% endfor %}
+      </div>
+    </article>
+  </section>
+
   <h2 class="community-section__title">社区文章</h2>
   <div class="community-grid">
     {% for item in articles %}

@@ -56,8 +56,11 @@ def test_public_animal_list_only_shows_published(client, animal_context) -> None
     response = client.get(reverse("animals:list"))
 
     assert response.status_code == 200
-    assert visible.name in response.content.decode()
-    assert hidden.name not in response.content.decode()
+    content = response.content.decode()
+    assert visible.name in content
+    assert hidden.name not in content
+    assert "救助数据概览" in content
+    assert "救助流程" in content
     assert client.get(reverse("animals:detail", args=(hidden.pk,))).status_code == 404
 
 

@@ -60,9 +60,10 @@ def test_home_uses_business_dashboard_and_empty_states(client) -> None:
     response = client.get(reverse("home"))
     content = response.content.decode()
     assert response.status_code == 200
-    assert "让每一个" in content
-    assert "最新救助档案" in content
-    assert "急需物资" in content
+    assert "给流浪动物" in content
+    assert "等待回家的" in content
+    assert "你可以怎样帮忙" in content
+    assert 'loading="lazy"' in content
 
 
 def test_upload_size_validator_rejects_oversized_poster() -> None:

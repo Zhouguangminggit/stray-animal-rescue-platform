@@ -114,6 +114,31 @@ def test_public_community_excludes_hidden_and_unpublished_content(
 
     assert "公开文章" in content and "公开帖子" in content
     assert "草稿文章" not in content and "隐藏帖子" not in content
+    assert "志愿者社区数据概览" in content
+    assert "参与方式" in content
+
+
+@pytest.mark.django_db
+def test_public_community_detail_pages_render(client, community_users) -> None:
+    _, author, _ = community_users
+    article = CommunityArticle.objects.create(
+        title="公开文章",
+        summary="摘要",
+        content="正文内容",
+        is_published=True,
+        published_at=timezone.now(),
+    )
+    post = CommunityPost.objects.create(author=author, title="公开帖子", content="内容")
+
+    article_response = client.get(
+        reverse("volunteers:article_detail", args=(article.pk,))
+    )
+    post_response = client.get(reverse("volunteers:post_detail", args=(post.pk,)))
+
+    assert article_response.status_code == 200
+    assert "正文内容" in article_response.content.decode()
+    assert post_response.status_code == 200
+    assert "公开帖子" in post_response.content.decode()
 
 
 @pytest.mark.django_db

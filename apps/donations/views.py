@@ -3,6 +3,7 @@ from typing import Any, cast
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db.models import Count, Q, Sum
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
@@ -23,7 +24,38 @@ def project_list(request: HttpRequest) -> HttpResponse:
     return render(
         request,
         "donations/list.html",
-        {"page_obj": page, "faqs": faqs_for(FAQModule.DONATION)},
+        {
+            "page_obj": page,
+            "module_stats": {
+                "open_projects": DonationProject.objects.filter(
+                    status=DonationProject.Status.OPEN
+                ).count(),
+                "items": DonationItem.objects.filter(
+                    project__status=DonationProject.Status.OPEN
+                ).count(),
+                "pledged_quantity": Pledge.objects.filter(
+                    status__in=(Pledge.Status.PLEDGED, Pledge.Status.CONFIRMED)
+                ).aggregate(total=Sum("quantity"))["total"]
+                or 0,
+                "supporters": Pledge.objects.values("user").distinct().count(),
+            },
+            "urgent_items": DonationItem.objects.filter(
+                project__status=DonationProject.Status.OPEN
+            )
+            .select_related("project")
+            .annotate(
+                pledge_count=Count(
+                    "pledges",
+                    filter=Q(
+                        pledges__status__in=(
+                            Pledge.Status.PLEDGED,
+                            Pledge.Status.CONFIRMED,
+                        )
+                    ),
+                )
+            )[:4],
+            "faqs": faqs_for(FAQModule.DONATION),
+        },
     )
 
 

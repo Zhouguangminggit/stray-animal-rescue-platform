@@ -431,8 +431,198 @@
 }
 
 /* --------------------------------------------------------
-   6. 响应式
+   6. 模块摘要与交叉内容
    -------------------------------------------------------- */
+.module-insights {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(300px, 0.9fr);
+  gap: 18px;
+  margin: 0 0 28px;
+}
+
+.module-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.module-stat-grid article,
+.module-process,
+.module-feature-card,
+.module-strip {
+  border: 1px solid var(--line-light);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: var(--shadow-card);
+}
+
+.module-stat-grid article {
+  padding: 18px;
+}
+
+.module-stat-grid strong {
+  display: block;
+  color: var(--primary-dark);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.module-stat-grid span,
+.module-process span,
+.module-mini-list span,
+.module-strip__items span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.module-process {
+  padding: 18px;
+}
+
+.module-process > span {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+.module-process ol {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: process;
+}
+
+.module-process li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-secondary);
+  font-size: 14px;
+}
+
+.module-process li::before {
+  counter-increment: process;
+  content: counter(process);
+  display: inline-grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--light-orange);
+  color: var(--primary-dark);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.module-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0 0 28px;
+}
+
+.module-feature-card {
+  padding: 20px;
+}
+
+.module-feature-card h2,
+.module-strip h2 {
+  margin: 0 0 16px;
+  color: var(--dark);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.module-feature-card__body {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.module-feature-card__body img {
+  width: 132px;
+  aspect-ratio: 1;
+  border-radius: var(--radius);
+  object-fit: cover;
+}
+
+.module-feature-card__body strong,
+.module-mini-list strong,
+.module-strip__items strong {
+  display: block;
+  color: var(--dark);
+  font-weight: 700;
+}
+
+.module-feature-card__body p {
+  margin: 8px 0 10px;
+  color: var(--ink-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.module-feature-card__body a {
+  color: var(--primary-dark);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.module-mini-list {
+  display: grid;
+  gap: 10px;
+}
+
+.module-mini-list span {
+  display: block;
+  padding: 10px 0;
+  border-top: 1px solid var(--line-light);
+}
+
+.module-strip {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.35fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: stretch;
+  margin: 0 0 28px;
+  padding: 20px;
+}
+
+.module-strip__items {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.module-strip__items article {
+  padding: 14px;
+  border-radius: var(--radius);
+  background: var(--paper);
+}
+
+/* --------------------------------------------------------
+   7. 响应式
+   -------------------------------------------------------- */
+@media (max-width: 900px) {
+  .module-insights,
+  .module-feature-grid,
+  .module-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .module-stat-grid,
+  .module-strip__items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 640px) {
   .site-header__inner {
     min-height: 64px;
@@ -468,5 +658,16 @@
   .user-dropdown__menu {
     right: -8px;
     min-width: 180px;
+  }
+
+  .module-stat-grid,
+  .module-strip__items,
+  .module-feature-card__body {
+    grid-template-columns: 1fr;
+  }
+
+  .module-feature-card__body img {
+    width: 100%;
+    max-height: 220px;
   }
 }

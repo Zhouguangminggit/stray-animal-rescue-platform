@@ -14,6 +14,24 @@
     <a class="btn" href="{% url 'animals:rescue_create' %}">发起救助</a>
   </header>
 
+  <section class="module-insights" aria-label="救助数据概览">
+    <div class="module-stat-grid">
+      <article><strong>{{ module_stats.published }}</strong><span>公开档案</span></article>
+      <article><strong>{{ module_stats.waiting }}</strong><span>待救助</span></article>
+      <article><strong>{{ module_stats.rescued }}</strong><span>已救助</span></article>
+      <article><strong>{{ module_stats.campuses }}</strong><span>覆盖校区</span></article>
+    </div>
+    <div class="module-process">
+      <span>救助流程</span>
+      <ol>
+        <li>提交线索</li>
+        <li>审核建档</li>
+        <li>现场救助</li>
+        <li>康复跟进</li>
+      </ol>
+    </div>
+  </section>
+
   <form class="animals-filters" method="get">
     <select name="category">
       <option value="">全部类型</option>
@@ -42,11 +60,28 @@
     <button type="submit">筛选</button>
   </form>
 
+  {% if campus_snapshots %}
+  <section class="module-strip" aria-label="校区救助概览">
+    <header>
+      <p class="section-kicker">CAMPUS SNAPSHOT</p>
+      <h2>校区救助概览</h2>
+    </header>
+    <div class="module-strip__items">
+      {% for campus in campus_snapshots %}
+      <article>
+        <strong>{{ campus.name }}</strong>
+        <span>{{ campus.published_animals }} 个公开救助档案</span>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
   <div class="animals-grid">
     {% for animal in page_obj %}
     <article class="animal-card">
       {% with cover=animal.cover_image %}
-      {% if cover %}<img src="{{ cover.image.url }}" alt="{{ animal }}">{% else %}<div style="height:220px;background:var(--light-orange);display:flex;align-items:center;justify-content:center;color:var(--muted);">暂无图片</div>{% endif %}
+      {% if cover %}<img src="{{ cover.image.url }}" alt="{{ animal }}" loading="lazy" decoding="async">{% else %}<div class="animal-card__placeholder">暂无图片</div>{% endif %}
       {% endwith %}
       <div>
         <span>{{ animal.get_rescue_status_display }}</span>

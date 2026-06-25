@@ -81,6 +81,19 @@ def test_adoption_application_requires_login_and_prevents_duplicate(
 
 
 @pytest.mark.django_db
+def test_adoption_list_shows_summary_modules(client, adoption_context) -> None:
+    _, _, _, _, _, animal = adoption_context
+
+    response = client.get(reverse("adoptions:list"))
+    content = response.content.decode()
+
+    assert response.status_code == 200
+    assert animal.name in content
+    assert "领养数据概览" in content
+    assert "本周推荐领养" in content
+
+
+@pytest.mark.django_db
 def test_approval_creates_relationship_and_rejects_competitors(
     adoption_context,
 ) -> None:

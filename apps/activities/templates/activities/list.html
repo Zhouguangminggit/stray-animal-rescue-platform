@@ -14,6 +14,41 @@
     {% if user.is_authenticated %}<a class="btn btn--secondary" href="{% url 'activities:mine' %}">我的活动</a>{% endif %}
   </header>
 
+  <section class="module-insights" aria-label="活动数据概览">
+    <div class="module-stat-grid">
+      <article><strong>{{ module_stats.open }}</strong><span>报名中活动</span></article>
+      <article><strong>{{ module_stats.upcoming }}</strong><span>即将开始</span></article>
+      <article><strong>{{ module_stats.registered }}</strong><span>已报名</span></article>
+      <article><strong>{{ module_stats.capacity }}</strong><span>开放名额</span></article>
+    </div>
+    <div class="module-process">
+      <span>活动流程</span>
+      <ol>
+        <li>查看安排</li>
+        <li>报名参与</li>
+        <li>现场签到</li>
+        <li>复盘分享</li>
+      </ol>
+    </div>
+  </section>
+
+  {% if campus_snapshots %}
+  <section class="module-strip" aria-label="校区活动概览">
+    <header>
+      <p class="section-kicker">CAMPUS ACTIVITY</p>
+      <h2>校区活动概览</h2>
+    </header>
+    <div class="module-strip__items">
+      {% for campus in campus_snapshots %}
+      <article>
+        <strong>{{ campus.campus__name }}</strong>
+        <span>{{ campus.total }} 场活动 · {{ campus.registered }} 人报名</span>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
   <div class="activities-grid">
     {% for item in page_obj %}
     <article class="activity-card">
