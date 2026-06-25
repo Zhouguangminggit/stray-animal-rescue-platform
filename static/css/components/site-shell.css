@@ -9,7 +9,8 @@
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 20;
+  z-index: 1000;
+  overflow: visible;
   border-bottom: 1px solid rgba(255, 140, 66, 0.10);
   background: rgba(255, 248, 240, 0.92);
   backdrop-filter: blur(18px);
@@ -29,13 +30,15 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+  overflow: visible;
 }
 
 .header-right {
   display: flex;
   align-items: center;
   gap: 20px;
-  overflow-x: auto;
+  min-width: 0;
+  overflow: visible;
   scrollbar-width: none;
   white-space: nowrap;
 }
@@ -105,6 +108,7 @@
 .user-dropdown__toggle .dropdown-arrow {
   transition: transform var(--transition-fast);
   flex-shrink: 0;
+  pointer-events: none;
 }
 
 .user-dropdown__toggle[aria-expanded="true"] .dropdown-arrow {
@@ -115,7 +119,7 @@
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  z-index: 50;
+  z-index: 2000;
   min-width: 200px;
   padding: 8px;
   border-radius: var(--radius);
@@ -186,9 +190,11 @@
 .site-nav {
   display: flex;
   align-items: center;
+  flex: 1 1 auto;
   gap: 20px;
   font-size: 14px;
   font-weight: 600;
+  min-width: 0;
   overflow-x: auto;
   scrollbar-width: none;
   white-space: nowrap;

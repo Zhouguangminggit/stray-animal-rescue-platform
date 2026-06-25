@@ -1,4 +1,5 @@
 import pytest
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.urls import reverse
@@ -54,3 +55,23 @@ def test_notification_is_private_and_marked_read(client) -> None:
     )
     notice.refresh_from_db()
     assert notice.read_at is not None
+
+
+@pytest.mark.django_db
+def test_site_header_user_dropdown_renders_and_is_not_clipped(client) -> None:
+    user = get_user_model().objects.create_user(
+        username="admin", email="admin@example.com", password="pass12345"
+    )
+    client.force_login(user)
+
+    content = client.get(reverse("home")).content.decode()
+    assert 'id="user-dropdown"' in content
+    assert reverse("notifications:list") in content
+    assert "通知" in content
+
+    css = (
+        settings.BASE_DIR / "static" / "css" / "components" / "site-shell.css"
+    ).read_text()
+    header_right_block = css.split(".header-right {", 1)[1].split("}", 1)[0]
+    assert "overflow: visible;" in header_right_block
+    assert "overflow-x: auto;" not in header_right_block
