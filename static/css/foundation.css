@@ -31,6 +31,7 @@
 
   /* 功能色 */
   --success: #4CAF50;
+  --success-text: #2E7D32;
   --success-bg: #E8F5E9;
   --success-border: #C8E6C9;
   --warning: #FF9800;
@@ -181,6 +182,37 @@ a {
   margin: 0;
   border: 0;
   border-top: 1px solid var(--line);
+}
+
+/* 空状态 */
+.empty-state {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* 通用文本截断（单行） */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 通用文本截断（多行，2行） */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 通用文本截断（多行，3行） */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* --------------------------------------------------------

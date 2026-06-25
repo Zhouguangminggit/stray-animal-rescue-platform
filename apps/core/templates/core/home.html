@@ -129,7 +129,7 @@
       <a href="{% url 'animals:detail' animal.pk %}" class="pet-card reveal">
         <div class="pet-card__media">
           {% with cover=animal.cover_image %}
-          {% if cover %}<img src="{{ cover.image.url }}" alt="{{ animal }}">{% else %}<img src="{% static 'core/img/pet-doudou.jpg' %}" alt="{{ animal }}">{% endif %}
+          {% if cover %}<img src="{{ cover.image.url }}" alt="{{ animal }}" loading="lazy" decoding="async">{% else %}<img src="{% static 'core/img/pet-doudou.jpg' %}" alt="{{ animal }}" loading="lazy" decoding="async">{% endif %}
           {% endwith %}
         </div>
         <div class="pet-card__body">

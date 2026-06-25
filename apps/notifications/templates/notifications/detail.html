@@ -1,3 +1,16 @@
 {% extends "layouts/application.html" %}
+{% load static %}
 {% block title %}{{ notification.title }}{% endblock %}
-{% block content %}<article class="site-container"><h1>{{ notification.title }}</h1><p>{{ notification.content }}</p><time>{{ notification.created_at }}</time></article>{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'notifications/css/notifications.css' %}">{% endblock %}
+
+{% block content %}
+<article class="site-container notification-detail">
+  <a href="{% url 'notifications:list' %}" class="notification-detail__back">← 返回通知列表</a>
+  <span class="section-kicker">NOTIFICATION</span>
+  <h1>{{ notification.title }}</h1>
+  <div class="notification-detail__content">
+    {{ notification.content|linebreaks }}
+  </div>
+  <time class="notification-detail__time">{{ notification.created_at|date:"Y-m-d H:i" }}</time>
+</article>
+{% endblock %}

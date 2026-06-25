@@ -267,11 +267,11 @@
 
 ### 第十一批：README 与品牌收尾（最后完成）
 
-**目标**：替换所有 DjangoHarness 开源品牌描述，建立 Street Pet Society 品牌。
+**目标**：替换所有 stray-animal-rescue-platform 开源品牌描述，建立 Street Pet Society 品牌。
 
 **具体工作**：
 1. **重写 `README.md`**
-   - 删除所有 DjangoHarness 品牌和描述
+   - 删除所有 stray-animal-rescue-platform 品牌和描述
    - 添加 Street Pet Society 品牌 logo（如 `static/accounts/brand/logo.png` 已存在，确认是否需要替换）
    - 简洁描述项目模块和功能（面向大学生流浪动物救助平台）
    - 添加项目故事/使命描述吸引用户
@@ -281,10 +281,10 @@
    - 确认 `static/accounts/brand/logo.png` 是否为 Street Pet Society 品牌图
    - 如不是，需替换为新的品牌 logo
 4. **全站文案检查**
-   - 替换残留的 DjangoHarness 品牌文案（如注册页的“加入 DjangoHarness”）
+   - 替换残留的 stray-animal-rescue-platform 品牌文案（如注册页的“加入 stray-animal-rescue-platform”）
 
 **验收标准**：
-- README 中无任何 DjangoHarness 相关描述
+- README 中无任何 stray-animal-rescue-platform 相关描述
 - 全站品牌文案统一为 Street Pet Society / 流浪动物救助平台
 
 ---

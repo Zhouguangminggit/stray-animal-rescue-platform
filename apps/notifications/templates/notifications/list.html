@@ -1,3 +1,36 @@
 {% extends "layouts/application.html" %}
+{% load static %}
 {% block title %}通知中心{% endblock %}
-{% block content %}<section class="site-container"><h1>通知中心</h1>{% for item in page_obj %}<article><a href="{% url 'notifications:detail' item.pk %}">{{ item.title }}</a><p>{{ item.created_at }}</p>{% if not item.read_at %}<strong>未读</strong>{% endif %}</article>{% empty %}<p>暂无通知。</p>{% endfor %}</section>{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'notifications/css/notifications.css' %}">{% endblock %}
+
+{% block content %}
+<section class="site-container notifications-page">
+  <header class="notifications-heading">
+    <p class="section-kicker">NOTIFICATION</p>
+    <h1>通知中心</h1>
+  </header>
+
+  <div class="notification-list">
+    {% for item in page_obj %}
+    <article class="notification-row{% if not item.read_at %} notification-row--unread{% endif %}">
+      {% if not item.read_at %}<span class="notification-row__marker"></span>{% endif %}
+      <div class="notification-row__body">
+        <a class="notification-row__title" href="{% url 'notifications:detail' item.pk %}">{{ item.title }}</a>
+        <p class="notification-row__meta">{{ item.created_at|date:"Y-m-d H:i" }}</p>
+      </div>
+      {% if not item.read_at %}<span class="notification-row__status">未读</span>{% endif %}
+    </article>
+    {% empty %}
+    <div class="empty-state">暂无通知。</div>
+    {% endfor %}
+  </div>
+
+  {% if page_obj.has_other_pages %}
+  <nav class="notifications-pagination">
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">上一页</a>{% endif %}
+    <span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">下一页</a>{% endif %}
+  </nav>
+  {% endif %}
+</section>
+{% endblock %}

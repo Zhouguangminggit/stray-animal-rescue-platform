@@ -1,1 +1,1 @@
-"""DjangoHarness application packages."""
+"""stray-animal-rescue-platform application packages."""

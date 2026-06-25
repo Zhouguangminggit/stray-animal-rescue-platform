@@ -85,7 +85,7 @@ class PhoneRegisterForm(UserCreationForm):
         user = super().save(commit=False)
         user.phone = self.cleaned_data["phone"]
         user.username = f"mobile_{uuid.uuid4().hex[:12]}"
-        user.email = f"{uuid.uuid4().hex}@mobile.djangoharness.invalid"
+        user.email = f"{uuid.uuid4().hex}@mobile.stray-animal-rescue-platform.invalid"
         if commit:
             user.save()
         return user
@@ -152,7 +152,7 @@ class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._old_avatar_name = self.instance.avatar.name
-        if self.instance.email.endswith("@mobile.djangoharness.invalid"):
+        if self.instance.email.endswith("@mobile.stray-animal-rescue-platform.invalid"):
             self.initial["email"] = ""
 
     def clean_nickname(self):

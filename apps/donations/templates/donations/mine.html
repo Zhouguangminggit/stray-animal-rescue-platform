@@ -1,1 +1,25 @@
-{% extends "layouts/application.html" %}{% block title %}我的认捐{% endblock %}{% block content %}<section class="site-container module-page"><h1>我的认捐</h1>{% for item in pledges %}<p>{{ item.item.project }} · {{ item.item.name }} {{ item.quantity }} {{ item.item.unit }} · {{ item.get_status_display }}</p>{% empty %}<p>暂无认捐记录。</p>{% endfor %}</section>{% endblock %}
+{% extends "layouts/application.html" %}
+{% load static %}
+{% block title %}我的认捐{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'donations/css/donations.css' %}">{% endblock %}
+
+{% block content %}
+<section class="site-container donations-mine">
+  <span class="section-kicker">MY PLEDGE</span>
+  <h1>我的认捐</h1>
+
+  {% for item in pledges %}
+  <article class="donations-mine__row">
+    <div>
+      <strong>{{ item.item.project }}</strong>
+      <p>{{ item.item.name }} {{ item.quantity }} {{ item.item.unit }}</p>
+    </div>
+    <div>
+      <span>{{ item.get_status_display }}</span>
+    </div>
+  </article>
+  {% empty %}
+  <div class="empty-state">暂无认捐记录。</div>
+  {% endfor %}
+</section>
+{% endblock %}

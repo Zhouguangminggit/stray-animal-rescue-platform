@@ -37,7 +37,7 @@
 ## 验证结果
 - CSS 括号平衡：通过
 - 模板标签配对：无 mismatch
-- 品牌文案：无 "DjangoHarness" 残留
+- 品牌文案：无 "stray-animal-rescue-platform" 残留
 - CSS 变量：无旧变量使用
 
 ## 保留的业务逻辑

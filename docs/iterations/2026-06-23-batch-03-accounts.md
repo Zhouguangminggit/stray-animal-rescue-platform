@@ -3,7 +3,7 @@
 ## 实施内容
 
 ### 1. 认证视觉资源更新
-- **更新 `base_framework/settings/base.py`**：将 `AUTH_MEDIA` 的默认路径从旧 `accounts/media/djangoharness.png` 改为暖橙主题图片：
+- **更新 `base_framework/settings/base.py`**：将 `AUTH_MEDIA` 的默认路径从旧 `accounts/media/stray-animal-rescue-platform.png` 改为暖橙主题图片：
   - login → `core/img/hero-bg.jpg`
   - register → `core/img/about-volunteer.jpg`
   - password_reset → `core/img/hero-bg.jpg`
@@ -36,7 +36,7 @@
 ## 验证结果
 - CSS 括号平衡：通过
 - 模板标签配对：所有认证模板 `{% block %}` / `{% endblock %}` 正确匹配
-- 品牌文案检查：无模板包含 "DjangoHarness"
+- 品牌文案检查：无模板包含 "stray-animal-rescue-platform"
 - URL 引用检查：所有 `{% url %}` 引用均为有效命名路由
 - 功能保留：登录、注册、密码重置、个人资料编辑的所有业务逻辑未改动
 

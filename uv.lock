@@ -176,7 +176,7 @@ wheels = [
 ]
 
 [[package]]
-name = "djangoharness"
+name = "stray-animal-rescue-platform"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

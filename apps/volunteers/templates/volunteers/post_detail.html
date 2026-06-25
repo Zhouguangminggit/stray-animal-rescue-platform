@@ -1,1 +1,28 @@
-{% extends "layouts/application.html" %}{% block title %}{{ post.title }}{% endblock %}{% block content %}<article class="site-container community-detail"><h1>{{ post.title }}</h1><p>{{ post.author.display_name }} · {{ post.created_at }}</p><div>{{ post.content|linebreaks }}</div>{% if user.is_authenticated %}<details><summary>举报内容</summary><form method="post" action="{% url 'volunteers:report_post' post.pk %}">{% csrf_token %}{{ report_form.as_p }}<button type="submit">提交举报</button></form></details>{% endif %}</article>{% endblock %}
+{% extends "layouts/application.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'volunteers/css/community.css' %}">{% endblock %}
+
+{% block content %}
+<article class="site-container community-detail">
+  <span class="section-kicker">COMMUNITY POST</span>
+  <h1>{{ post.title }}</h1>
+  <div class="community-detail__meta">
+    <span>{{ post.author.display_name }}</span>
+    <span>{{ post.created_at|date:"Y-m-d H:i" }}</span>
+  </div>
+  <div class="community-detail__content">
+    {{ post.content|linebreaks }}
+  </div>
+
+  {% if user.is_authenticated %}
+  <details class="report-section">
+    <summary>🚩 举报内容</summary>
+    <form method="post" action="{% url 'volunteers:report_post' post.pk %}">
+      {% csrf_token %}
+      {{ report_form.as_p }}
+      <button class="btn btn--sm" type="submit">提交举报</button>
+    </form>
+  </details>
+  {% endif %}
+</article>
+{% endblock %}

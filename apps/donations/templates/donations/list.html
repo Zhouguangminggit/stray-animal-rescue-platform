@@ -1,1 +1,37 @@
-{% extends "layouts/application.html" %}{% block title %}爱心捐赠{% endblock %}{% block content %}<section class="site-container module-page"><h1>爱心捐赠</h1>{% for item in page_obj %}<article><h2><a href="{% url 'donations:detail' item.pk %}">{{ item.title }}</a></h2><p>{{ item.summary }} · {{ item.get_status_display }}</p></article>{% empty %}<p>暂无捐赠项目。</p>{% endfor %}</section>{% endblock %}
+{% extends "layouts/application.html" %}
+{% load static %}
+{% block title %}爱心捐赠{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'donations/css/donations.css' %}">{% endblock %}
+
+{% block content %}
+<section class="site-container donations-page">
+  <header class="donations-heading">
+    <div>
+      <p class="section-kicker">DONATION</p>
+      <h1>爱心捐赠</h1>
+      <p class="section-lead">您的每一份捐赠，都能帮助流浪动物获得更好的照顾。</p>
+    </div>
+    {% if user.is_authenticated %}<a class="btn btn--secondary" href="{% url 'donations:mine' %}">我的认捐</a>{% endif %}
+  </header>
+
+  <div class="donations-grid">
+    {% for item in page_obj %}
+    <article class="donation-card">
+      <span class="donation-card__status">{{ item.get_status_display }}</span>
+      <h2><a href="{% url 'donations:detail' item.pk %}">{{ item.title }}</a></h2>
+      <p class="donation-card__summary">{{ item.summary|default:item.description|truncatechars:120 }}</p>
+    </article>
+    {% empty %}
+    <div class="empty-state" style="grid-column:1/-1">暂无捐赠项目。</div>
+    {% endfor %}
+  </div>
+
+  {% if page_obj.has_other_pages %}
+  <nav class="donations-pagination">
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">上一页</a>{% endif %}
+    <span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">下一页</a>{% endif %}
+  </nav>
+  {% endif %}
+</section>
+{% endblock %}

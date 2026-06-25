@@ -1,0 +1,347 @@
+/* ============================================================
+   捐赠模块样式 — 暖橙主题
+   ============================================================ */
+
+/* 通用页面 */
+.donations-page,
+.donation-detail,
+.donations-mine {
+  padding-block: clamp(48px, 7vw, 96px);
+}
+
+/* --------------------------------------------------------
+   1. 页面头部
+   -------------------------------------------------------- */
+.donations-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.donations-heading h1,
+.donation-detail h1,
+.donations-mine h1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  margin: 0.4rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--dark);
+}
+
+/* --------------------------------------------------------
+   2. 捐赠项目卡片网格
+   -------------------------------------------------------- */
+.donations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.donation-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+  transition: transform var(--transition), box-shadow var(--transition);
+  padding: 1.5rem;
+  min-height: 200px;
+}
+
+.donation-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.donation-card__status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--light-orange);
+  color: var(--primary-dark);
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  align-self: flex-start;
+}
+
+.donation-card h2 {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.donation-card h2 a {
+  color: var(--dark);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.donation-card h2 a:hover {
+  color: var(--primary);
+}
+
+.donation-card__summary {
+  margin: 0;
+  color: var(--ink-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------
+   3. 捐赠详情页
+   -------------------------------------------------------- */
+.donation-detail__desc {
+  margin: 1.5rem 0;
+  color: var(--ink-secondary);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.donation-detail__desc p {
+  margin: 0 0 1rem;
+}
+
+/* 需求物资列表 */
+.donation-items {
+  margin-top: 2.5rem;
+}
+
+.donation-items h2 {
+  margin: 0 0 1.5rem;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--dark);
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.donation-item {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 0.6fr);
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--line);
+  align-items: start;
+}
+
+.donation-item__info h3 {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--dark);
+}
+
+.donation-item__info p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* 进度条 */
+.donation-item__progress {
+  margin-bottom: 1rem;
+}
+
+.donation-item__progress-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--line-light);
+  overflow: hidden;
+}
+
+.donation-item__progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  transition: width 0.6s ease;
+}
+
+.donation-item__progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.donation-item__progress-label strong {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* 认捐表单 */
+.donation-item__form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.donation-item__form input[type="number"] {
+  width: 80px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--ink);
+  font-size: 15px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.donation-item__form input[type="number"]:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.15);
+  outline: none;
+}
+
+.donation-item__form input[type="text"] {
+  flex: 1 1 auto;
+  min-width: 120px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--ink);
+  font-size: 15px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.donation-item__form input[type="text"]:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.15);
+  outline: none;
+}
+
+.donation-item__form .btn {
+  flex: 0 0 auto;
+  padding: 10px 20px;
+}
+
+/* --------------------------------------------------------
+   4. 我的认捐列表
+   -------------------------------------------------------- */
+.donations-mine__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--line);
+  transition: padding var(--transition-fast);
+}
+
+.donations-mine__row:hover {
+  padding-left: 8px;
+}
+
+.donations-mine__row strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--dark);
+}
+
+.donations-mine__row p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.donations-mine__row span {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--light-orange);
+  color: var(--primary-dark);
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------
+   5. 分页器
+   -------------------------------------------------------- */
+.donations-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.donations-pagination a {
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.donations-pagination a:hover {
+  background: var(--primary);
+  color: var(--white);
+  box-shadow: 0 4px 14px rgba(255, 140, 66, 0.35);
+}
+
+.donations-pagination span {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------
+   6. 响应式
+   -------------------------------------------------------- */
+@media (max-width: 900px) {
+  .donations-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .donation-item {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .donations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .donations-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .donation-item__form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .donation-item__form input[type="number"],
+  .donation-item__form input[type="text"],
+  .donation-item__form .btn {
+    width: 100%;
+  }
+}

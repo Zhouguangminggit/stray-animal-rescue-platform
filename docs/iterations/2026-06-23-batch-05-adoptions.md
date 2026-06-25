@@ -29,7 +29,7 @@
 - CSS 括号平衡：通过
 - 旧 CSS 变量：无残留
 - 模板标签配对：无 mismatch
-- 品牌文案：无 "DjangoHarness"
+- 品牌文案：无 "stray-animal-rescue-platform"
 
 ## 保留的业务逻辑
 - `adoption_list` 的 4 个筛选参数 + 分页（12 条/页）

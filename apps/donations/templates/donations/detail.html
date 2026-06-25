@@ -1,1 +1,61 @@
-{% extends "layouts/application.html" %}{% block title %}{{ project.title }}{% endblock %}{% block content %}<section class="site-container module-page"><h1>{{ project.title }}</h1><p>{{ project.description|linebreaks }}</p>{% for item in project.items.all %}<article><h2>{{ item.name }}</h2><p>需求 {{ item.required_quantity }} {{ item.unit }}，剩余 {{ item.remaining_quantity }} {{ item.unit }}</p>{% if user.is_authenticated and project.status == 'open' and item.remaining_quantity %}<form method="post" action="{% url 'donations:pledge' item.pk %}">{% csrf_token %}<input type="number" name="quantity" min="1" max="{{ item.remaining_quantity }}" required><input name="note" placeholder="备注"><button type="submit">认捐</button></form>{% endif %}</article>{% endfor %}</section>{% endblock %}
+{% extends "layouts/application.html" %}
+{% load static %}
+{% block title %}{{ project.title }}{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'donations/css/donations.css' %}">{% endblock %}
+
+{% block content %}
+<section class="site-container donation-detail">
+  <span class="section-kicker">DONATION PROJECT</span>
+  <h1>{{ project.title }}</h1>
+  <div class="donation-detail__desc">
+    {{ project.description|linebreaks }}
+  </div>
+
+  <div class="donation-items">
+    <h2>需求物资</h2>
+    {% for item in project.items.all %}
+    <article class="donation-item">
+      <div class="donation-item__info">
+        <h3>{{ item.name }}</h3>
+        <p>需求 {{ item.required_quantity }} {{ item.unit }}，已认捐 {{ item.required_quantity|add:item.remaining_quantity|default:0 }} {{ item.unit }}</p>
+      </div>
+      <div>
+        <div class="donation-item__progress">
+          <div class="donation-item__progress-track">
+            {% if item.required_quantity > 0 %}
+            <div class="donation-item__progress-fill" data-remaining="{{ item.remaining_quantity }}" data-required="{{ item.required_quantity }}"></div>
+            {% endif %}
+          </div>
+          <div class="donation-item__progress-label">
+            <span>剩余 <strong>{{ item.remaining_quantity }} {{ item.unit }}</strong></span>
+            <span>共 {{ item.required_quantity }} {{ item.unit }}</span>
+          </div>
+        </div>
+        {% if user.is_authenticated and project.status == 'open' and item.remaining_quantity > 0 %}
+        <form class="donation-item__form" method="post" action="{% url 'donations:pledge' item.pk %}">
+          {% csrf_token %}
+          <input type="number" name="quantity" min="1" max="{{ item.remaining_quantity }}" required placeholder="数量">
+          <input type="text" name="note" placeholder="备注（可选）">
+          <button class="btn" type="submit">认捐</button>
+        </form>
+        {% endif %}
+      </div>
+    </article>
+    {% empty %}
+    <div class="empty-state">暂无需求物资。</div>
+    {% endfor %}
+  </div>
+</section>
+
+<script>
+(function() {
+  document.querySelectorAll('.donation-item__progress-fill').forEach(function(el) {
+    var remaining = parseInt(el.dataset.remaining || '0', 10);
+    var required = parseInt(el.dataset.required || '0', 10);
+    if (required > 0) {
+      el.style.width = Math.max(0, Math.min(100, ((required - remaining) / required * 100))) + '%';
+    }
+  });
+})();
+</script>
+{% endblock %}

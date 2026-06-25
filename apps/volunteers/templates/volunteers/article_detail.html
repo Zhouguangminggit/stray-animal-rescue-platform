@@ -1,1 +1,15 @@
-{% extends "layouts/application.html" %}{% block title %}{{ article.title }}{% endblock %}{% block content %}<article class="site-container community-detail"><h1>{{ article.title }}</h1><p>{{ article.summary }}</p>{% if article.cover %}<img src="{{ article.cover.url }}" alt="">{% endif %}<div>{{ article.content|linebreaks }}</div></article>{% endblock %}
+{% extends "layouts/application.html" %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'volunteers/css/community.css' %}">{% endblock %}
+
+{% block content %}
+<article class="site-container community-detail">
+  <span class="section-kicker">COMMUNITY ARTICLE</span>
+  <h1>{{ article.title }}</h1>
+  <p class="community-detail__summary">{{ article.summary }}</p>
+  {% if article.cover %}<img class="community-detail__cover" src="{{ article.cover.url }}" alt="{{ article.title }}">{% endif %}
+  <div class="community-detail__content">
+    {{ article.content|linebreaks }}
+  </div>
+</article>
+{% endblock %}

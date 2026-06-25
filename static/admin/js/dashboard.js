@@ -19,14 +19,14 @@
       yAxis: { type: "value", minInterval: 1, splitLine: { lineStyle: { color: gridColor } }, axisLabel: { color: axisColor } },
       series: [{
         name: "新增用户", type: "line", smooth: true, symbolSize: 8,
-        data: data.monthly.values, lineStyle: { width: 3, color: "#3559e0" }, itemStyle: { color: "#3559e0" },
-        areaStyle: { color: new window.echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: "rgba(53,89,224,.26)" }, { offset: 1, color: "rgba(53,89,224,.02)" }]) }
+        data: data.monthly.values, lineStyle: { width: 3, color: "#FF8C42" }, itemStyle: { color: "#FF8C42" },
+        areaStyle: { color: new window.echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: "rgba(255,140,66,.26)" }, { offset: 1, color: "rgba(255,140,66,.02)" }]) }
       }]
     });
     status.setOption({
       tooltip: { trigger: "item" }, legend: { bottom: 0, icon: "circle" },
       series: [{ type: "pie", radius: ["58%", "78%"], center: ["50%", "44%"], label: { show: false },
-        data: [{ value: data.status.active, name: "正常", itemStyle: { color: "#19a974" } }, { value: data.status.inactive, name: "停用", itemStyle: { color: "#d9dee8" } }]
+        data: [{ value: data.status.active, name: "正常", itemStyle: { color: "#FF8C42" } }, { value: data.status.inactive, name: "停用", itemStyle: { color: "#d9dee8" } }]
       }]
     });
     window.addEventListener("resize", function () { growth.resize(); status.resize(); });

@@ -1,7 +1,7 @@
-name: djangoharness
+name: stray-animal-rescue-platform
 
 x-app: &app
-  image: ${DJANGOHARNESS_IMAGE:-djangoharness:local}
+  image: ${stray-animal-rescue-platform_IMAGE:-stray-animal-rescue-platform:local}
   build:
     context: ..
     dockerfile: deploy/Dockerfile

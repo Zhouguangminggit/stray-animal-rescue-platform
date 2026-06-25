@@ -79,7 +79,7 @@ class AliyunEmailProvider(VerificationProvider):
                 "AddressType": "1",
                 "ReplyToAddress": "false",
                 "ToAddress": target,
-                "Subject": "DjangoHarness 密码重置验证码",
+                "Subject": "stray-animal-rescue-platform 密码重置验证码",
                 "HtmlBody": f"<p>你的验证码是 <strong>{code}</strong>，请勿转发。</p>",
             },
         )

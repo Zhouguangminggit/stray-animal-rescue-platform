@@ -1,1 +1,53 @@
-{% extends "layouts/application.html" %}{% load static %}{% block title %}志愿者社区{% endblock %}{% block extra_css %}<link rel="stylesheet" href="{% static 'volunteers/css/community.css' %}">{% endblock %}{% block content %}<section class="site-container community-page"><header><p class="section-kicker">COMMUNITY</p><h1>志愿者社区</h1><div><a href="{% url 'volunteers:apply' %}">加入志愿者</a> <a href="{% url 'volunteers:post_create' %}">发布帖子</a></div></header><h2>社区文章</h2><div class="community-grid">{% for item in articles %}<article><h3><a href="{% url 'volunteers:article_detail' item.pk %}">{{ item.title }}</a></h3><p>{{ item.summary }}</p></article>{% empty %}<p>暂无社区文章。</p>{% endfor %}</div><h2>用户分享</h2>{% for item in page_obj %}<article class="community-row"><h3><a href="{% url 'volunteers:post_detail' item.pk %}">{{ item.title }}</a></h3><p>{{ item.content|truncatechars:140 }}</p><small>{{ item.author.display_name }} · {{ item.created_at }}</small></article>{% empty %}<p>暂无用户帖子。</p>{% endfor %}</section>{% endblock %}
+{% extends "layouts/application.html" %}
+{% load static %}
+{% block title %}志愿者社区{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'volunteers/css/community.css' %}">{% endblock %}
+
+{% block content %}
+<section class="site-container community-page">
+  <header class="community-page__header">
+    <div>
+      <p class="section-kicker">COMMUNITY</p>
+      <h1>志愿者社区</h1>
+      <p class="section-lead">分享经验、交流心得，一起为流浪动物创造更好的未来。</p>
+    </div>
+    <div class="header-actions">
+      <a class="btn" href="{% url 'volunteers:apply' %}">加入志愿者</a>
+      <a class="btn btn--secondary" href="{% url 'volunteers:post_create' %}">发布帖子</a>
+    </div>
+  </header>
+
+  <h2 class="community-section__title">社区文章</h2>
+  <div class="community-grid">
+    {% for item in articles %}
+    <article class="community-card">
+      <h3><a href="{% url 'volunteers:article_detail' item.pk %}">{{ item.title }}</a></h3>
+      <p class="community-card__summary">{{ item.summary|truncatechars:120 }}</p>
+    </article>
+    {% empty %}
+    <div class="empty-state" style="grid-column:1/-1">暂无社区文章。</div>
+    {% endfor %}
+  </div>
+
+  <h2 class="community-section__title">用户分享</h2>
+  {% for item in page_obj %}
+  <article class="community-row">
+    <div>
+      <h3><a href="{% url 'volunteers:post_detail' item.pk %}">{{ item.title }}</a></h3>
+      <p class="community-row__content">{{ item.content|truncatechars:140 }}</p>
+    </div>
+    <p class="community-row__meta">{{ item.author.display_name }} · {{ item.created_at|date:"Y-m-d" }}</p>
+  </article>
+  {% empty %}
+  <div class="empty-state">暂无用户帖子。</div>
+  {% endfor %}
+
+  {% if page_obj.has_other_pages %}
+  <nav class="community-pagination">
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">上一页</a>{% endif %}
+    <span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">下一页</a>{% endif %}
+  </nav>
+  {% endif %}
+</section>
+{% endblock %}

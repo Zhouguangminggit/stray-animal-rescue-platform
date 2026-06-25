@@ -12,8 +12,8 @@ from .admin_forms import BulkUserImportForm
 from .models import User
 
 admin.site.index_template = "admin/dashboard.html"
-admin.site.site_header = "DjangoHarness 管理后台"
-admin.site.site_title = "DjangoHarness 后台"
+admin.site.site_header = "流浪动物救助管理后台"
+admin.site.site_title = "流浪动物救助管理后台"
 admin.site.index_title = "数据概览"
 
 

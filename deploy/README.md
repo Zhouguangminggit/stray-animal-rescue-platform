@@ -35,9 +35,9 @@ docker compose -f deploy/docker-compose.yml down
 ## 使用已发布镜像
 
 ```bash
-DJANGOHARNESS_IMAGE=registry.example.com/team/djangoharness:tag \
+stray-animal-rescue-platform_IMAGE=registry.example.com/team/stray-animal-rescue-platform:tag \
   docker compose -f deploy/docker-compose.yml pull web worker
-DJANGOHARNESS_IMAGE=registry.example.com/team/djangoharness:tag \
+stray-animal-rescue-platform_IMAGE=registry.example.com/team/stray-animal-rescue-platform:tag \
   docker compose -f deploy/docker-compose.yml up -d --remove-orphans
 ```
 
@@ -49,6 +49,6 @@ DJANGOHARNESS_IMAGE=registry.example.com/team/djangoharness:tag \
 
 - ACR：`ACR_REGISTRY`、`ACR_NAMESPACE`、`ACR_REPO`、`ACR_USERNAME`、`ACR_PASSWORD`。
 - SSH：`DEPLOY_HOST`、`DEPLOY_PORT`、`DEPLOY_USER`、`DEPLOY_PATH`、`DEPLOY_SSH_PRIVATE_KEY`。
-- 应用配置：`APP_ENV_VARS`，内容为完整生产 `.env`，不要把 `DJANGOHARNESS_IMAGE` 写入该 secret。
+- 应用配置：`APP_ENV_VARS`，内容为完整生产 `.env`，不要把 `stray-animal-rescue-platform_IMAGE` 写入该 secret。
 
 流水线只支持手动触发。它会先执行质量门禁，按 Git SHA 构建镜像，将 Compose 文件同步至服务器，然后无损更新服务。目标 Linux 主机必须预装 Docker Engine、Docker Compose plugin 和 `base64`，并允许部署用户操作 Docker。

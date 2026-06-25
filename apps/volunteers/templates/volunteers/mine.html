@@ -1,1 +1,52 @@
-{% extends "layouts/application.html" %}{% block title %}我的志愿者与社区{% endblock %}{% block content %}<section class="site-container community-page"><h1>我的志愿者与社区</h1><h2>志愿者状态</h2>{% if profile %}<p>{{ profile.get_status_display }} · {{ profile.skills }} · {{ profile.availability }}</p>{% else %}<p>尚未成为志愿者。</p>{% endif %}{% for item in applications %}<p>{{ item.created_at }} · {{ item.get_status_display }} {% if item.review_note %}· {{ item.review_note }}{% endif %}</p>{% endfor %}<h2>我的帖子</h2>{% for post in posts %}<p><a href="{% url 'volunteers:post_detail' post.pk %}">{{ post.title }}</a>{% if post.is_hidden %} · 已隐藏{% endif %}</p>{% empty %}<p>暂无帖子。</p>{% endfor %}</section>{% endblock %}
+{% extends "layouts/application.html" %}
+{% block title %}我的志愿者与社区{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'volunteers/css/community.css' %}">{% endblock %}
+
+{% block content %}
+<section class="site-container volunteers-mine">
+  <span class="section-kicker">VOLUNTEER</span>
+  <h1>我的志愿者与社区</h1>
+
+  <div class="volunteers-mine__section">
+    <h2>志愿者状态</h2>
+    {% if profile %}
+    <span class="volunteer-status">{{ profile.get_status_display }}</span>
+    <div class="volunteer-info">
+      <span>技能：{{ profile.skills|default:"未填写" }}</span>
+      <span>可参与时间：{{ profile.availability|default:"未填写" }}</span>
+    </div>
+    {% else %}
+    <p class="empty-state">尚未成为志愿者。<a class="link" href="{% url 'volunteers:apply' %}">立即申请</a></p>
+    {% endif %}
+  </div>
+
+  <div class="volunteers-mine__section">
+    <h2>申请记录</h2>
+    {% for item in applications %}
+    <article class="volunteer-row">
+      <div>
+        <strong>申请时间 {{ item.created_at|date:"Y-m-d" }}</strong>
+        {% if item.review_note %}<p>{{ item.review_note }}</p>{% endif %}
+      </div>
+      <span>{{ item.get_status_display }}</span>
+    </article>
+    {% empty %}
+    <div class="empty-state">暂无申请记录。</div>
+    {% endfor %}
+  </div>
+
+  <div class="volunteers-mine__section">
+    <h2>我的帖子</h2>
+    {% for post in posts %}
+    <article class="volunteer-row">
+      <div>
+        <strong><a href="{% url 'volunteers:post_detail' post.pk %}">{{ post.title }}</a></strong>
+      </div>
+      {% if post.is_hidden %}<span>已隐藏</span>{% endif %}
+    </article>
+    {% empty %}
+    <div class="empty-state">暂无帖子。</div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
